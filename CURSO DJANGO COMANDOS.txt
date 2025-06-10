@@ -1,0 +1,766 @@
+-- PARA CREAR ENTORNO VIRTUAL EN DJANGO
+pip install virtualenv 
+
+-- PARA CREAR CARPETA DEL ENTORNO VIRTUAL
+virtualenv venv
+
+-- PARA ACTIVAR ENTORNO VIRTUAL 
+venv\Scripts\actívate
+
+-- SI EXISTE ARCHIVO DE requirements.txt EJECUTAR EL SIGUIENTE COMANDO 
+pip install -r requirements.txt
+
+-- PARA INSTALAR DJANGO
+pip install django 4.2.9 -> es el numero de versión django
+
+-- PARA VER VERSION DJANGO
+django-admin --versión
+
+-- PARA CREAR PROYECTO DJANGO
+django-admin startproject sitio --> LA ULTIMA PALABRA ES EL NOMBRE DEL PROYECTO
+
+-- PARA CREAR PROYECTO DJANGO PERO NO CREE UNA CARPETA DUPLICADA
+django-admin startproject sitio . --> LA ULTIMA PALABRA ES EL NOMBRE DEL PROYECTO DESPUES VA EL PUNTO (.)
+
+-- PARA CORRER PROYECTO DJANGO 
+py manage.py runserver
+
+-- PARA CORRER PROJECTO DJANGO EN OTRO PUERTO
+py manage.py runserver 3000
+
+
+-- PARA CREAR CARPETAS DE APLICACIONES 
+NOTA1: LA CARPETA APPS SE CREA MANUAL Y HAY QUE POSICIONARNOS EN LA CARPETA APPS
+python ../manage.py startapp blog --> si no creamos la carpeta apps se pueden quedar afuera y quitar los dos puntos y la diagonal (../)
+
+-- TENEMOS QUE CONFIGURAR NUESTRO ARCHIVO settings.py PARA AGREGAR LA CARPETA APLICACIONES EN LA SECCION DE INSTALLED APPS
+"apps.prueba", #anexamos el nombre de la aplicación
+
+-- EN LA CARPETA DE APLICACION ABRIMOS EL ARCHIVO apps.py Y CONFIGURAMOS EL NOMBRE DEL ARCHIVO REFERENCIANDO LA CARPETA DE APLICAIONES
+name = "apps.prueba"
+
+
+-- HAY QUE CREAR NUESTRO ARCHIVO urls.py EN LAS CARPETAS DE NUESTRAS APPS Y POR DEFAULT AGREGAMOS ESTAS LINEAS EN EL ARCHIVO
+#importamos la libreria url para usar la funcion path
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path("",),
+]
+
+-- EN EL ARCHIVO URLS.PY DEL PROYECTO PRINCIPAL AGREGAMOS INCLUDE Y UNA LINEA DEMAS EN URLPATTERNS
+from django.urls import path, include
+path('',include('apps.prueba.urls')), # definimos la carpeta de las urls de donde se encuentra la aplicacion
+
+
+-- EJECUTAMOS LAS MIGRACIONES DE DJANGO ESTO PARA QUE CORRA LAS MIGRACIONES EN SQLITE O PODEMOS USAR LA CONFIGURACION PARA MYSQL O SQLSERVER
+python manage.py makemigrations
+python manage.py migrate
+
+
+
+
+---- ========== MYSQL EN DJANGO ====================
+-- EJECTUAMOS COMANDO PARA INSTALAR MYSQL EN DJANGO
+pip install pymysql
+
+-- DEBEMOS IMPORTAR LA LIBRERIA DE MYSQL EN DJANGO EN LA CARPETA DEL PROYECTO PRINCIPAL ES NECESARIO INCLUIR ESTAS LIBRERIAS EN EL ARCHIVO __init__.py
+import pymysql
+pymysql.install_as_MySQLdb()
+
+-- DESPUES DEBEMOS IR AL ARCHIVO settings.py DE LA CARPETA PRINCIPAL DEL PROYECTO PARA MODIFICAR LOS PARAMETROS DE LA BASE DE DATOS
+'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'nombreDB',
+            'USER': 'nombreusuario',
+            'PASSWORD': 'pass',
+            'HOST': 'localhost',
+            'PORT': '3306',
+        }
+
+-- DESPUES TENEMOS QUE EJECUTAR LAS MIGRACIONES PARA VER SI EN VERDAD SE CONFIGURO CORRECTAMENTE LAS LIBRERIAS DJANGO EN MYSQL
+python manage.py makemigrations
+python manage.py migrate
+
+--- NOTA: SI MANDA ERROR ES NECESARIO DESCARGAR MARIABD, INSTALARLA Y CONFIGURARLA EN OTRO PUERTO YA QUE EL DEFAULT ES 3306 ESTA POR XAMPP
+-- ASI QUE COLOCAREMOS 3307 PAR APODER ISNTALAR UNA VERSION DE MARIA DB MAS RECIENTE
+-- Y DESPUES CORRER MIGRACIONES
+
+"default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "punto_venta_django",
+        "USER": "root",
+        "PASSWORD": "",
+        "HOST": "localhost",
+        "PORT": "3307",
+    }
+
+python manage.py makemigrations
+python manage.py migrate
+
+
+---- ========== MYSQL EN DJANGO ====================
+
+
+-- DESPUES ABRIMOS EL ARCHIVO models.py DE NUESTRA APLICACION DE LA CARPETA APPS Y CREAMOS LOS MODELOS(TABLAS) DE LA BD IMPORTAMOS EL UUID PARA TENER ID DE LA TABLA
+DE IGUAL MANERA AGREGAMOS UN ID NORMAL
+from django.db import models
+import uuid # para referenciar el uuid
+from django.utils import timezone # para obtener el tiempo actual
+
+# Create your models here.
+class proyecto(models.Model):
+    id_proyecto = models.AutoField(primary_key=True, editable=False)
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
+    nombre = models.CharField(max_length=200)
+    imagenes = models.ImageField(upload_to=prueba_imagenes, blank=True, null=True,)
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    #esto se coloca para cuando creemos usuario de superadmin y se visualice en ese apartado
+    def __str__(self):
+        return str(self.id_restablece) + '-----' + self.activa
+
+
+class tareas(models.Model):
+    id_tareas = models.AutoField(primary_key=True, editable=False)
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
+    titulo = models.CharField(max_length=200)
+    descripcion = models.TextField()
+    fk_proyecto = models.ForeignKey(proyecto, on_delete=models.CASCADE, default=1)
+    bandera = models.IntegerField()
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    
+
+-- CREAMOS APARTADO DE DONDE SE GUARDARAN IMAGENES DEPENDIENDO DE LA APLICACION
+# para guardar imagenes
+def prueba_imagenes(instancia, filename):
+    return "prueba/{0}/{1}".format(instancia.titulo, filename)
+
+-- ANTES DE CORRER MIGRACIONES TENEMOS QUE INSTALAR UNA LIBRERIA LLAMADA PILLOW 
+python -m pip install Pillow
+
+-- EN EL ARCHIVO DE settings.py DEL PROYECTO HAY QUE CONFIGURAR LA RUTA DE DONDE SE GUARDARAN LAS IMAGENES
+import os
+
+# para guaradar los archivos
+MEDIA_URL = 'media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+
+<================ESTO ES SOLO PARA CUANDO LA CAPRTEA STATIC SE ENCUENTRA EN CADA CARPETA DE LAS APLICACIONES =====>
+-- PARA LAS RUTAS DE LOS ARCHIVOS ESTATICOS TAMBIEN ES NECESARIO AGREGAR LA SIGUIENTE LINEA  
+STATIC_URL = "static/"
+STATIC_ROOT = os.path.join(BASE_DIR,"static")
+
+
+--PARA QUE SE VISUALICEN LAS IMAGENES O ARCHIVOS ESTATICOS ES NECESARIO TENER EN EL ARCHIVO urls.py DEL PROYECTO PRINCIPAL ESTAS RUTAS AL FINAL DE LA LINEA PATH[]
+from django.conf.urls.static import static
+from django.conf import settings
+
++ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+<================ESTO ES SOLO PARA CUANDO LA CAPRTEA STATIC SE ENCUENTRA EN CADA CARPETA DE LAS APLICACIONES =====>
+
+
+
+<================ESTO ES SOLO PARA CUANDO LA CAPRTEA STATIC SE ENCUENTRA EN LA CARPETA RAIZ DEL PROYECTO =====>
+-- PARA LAS RUTAS DE LOS ARCHIVOS ESTATICOS TAMBIEN ES NECESARIO AGREGAR LA SIGUIENTE LINEA  
+STATIC_URL = "static/"
+# STATIC_ROOT = os.path.join(BASE_DIR,"static")
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
+
+--PARA QUE SE VISUALICEN LAS IMAGENES O ARCHIVOS ESTATICOS ES NECESARIO TENER EN EL ARCHIVO urls.py DEL PROYECTO PRINCIPAL ESTAS RUTAS AL FINAL DE LA LINEA PATH[]
+from django.conf.urls.static import static
+from django.conf import settings
+
++ static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+<================ESTO ES SOLO PARA CUANDO LA CAPRTEA STATIC SE ENCUENTRA EN CADA CARPETA DE LAS APLICACIONES =====>
+
+
+-- DE IGUAL MANERA EN EL ARCHIVO settigs.py DEL PROYECTO PRINCIPAL HAY QUE REALIZAR LA CONFIGURACION DE NOMBRE A LAS SESIONES
+SESSION_COOKIE_NAME = 'crud'
+
+
+
+-- AHORA CORREMOS DE NUEVO LAS MIGRACIONES PARA QUE SE PUEDAN VISUALIZAR, TAMBIEN SE PUEDE SELECCIONAR LA CARPETA EN ESPECIFICO DE CUAL QUIERES CORRER MIGRACIONES
+python manage.py makemigrations o python manage.py makemigrations prueba
+python manage.py migrate o python manage.py migrate prueba
+
+
+-- PARA CREAR SUPER USUARIO EN DJANGO Y PODER ENTRAR AL USUARIO DE ADMINISTRADOR
+py manage.py createsuperuser
+ us: sa
+ pass = 1-5
+
+-- PARA PODER VER LOS MODELOS EN LA PLANTILLA DE ADMISTRADOR ES NECESARIO ENTRAR A LA CARPETA APP Y A NUESTRA APLICACION EN EL ARCHIVO admin.py 
+-- ANEXAR LOS MODELOS Y LAS LINEAS DE CODIGO PARA QUE SEAN VISIBLES ESTOS MODELOS.
+#importamos modelos
+from .models import proyecto,tareas
+
+# agregamos esta linea para anexar el modelo
+admin.site.register(proyecto)
+# @admin.register(curso)
+
+
+-- PARA MOSTRAR EN EL PANEL ADMINISTRADOR QUE DATOS SE VISUALIZAN
+#importamos modelos
+from .models import proyecto,tareas
+
+# agregamos esta linea para anexar el modelo
+#agregamos modelo proyecto
+admin.site.register(proyecto)
+
+#agregamos modelo tareas
+admin.site.register(tareas)
+
+
+
+-- PARA MOSTRAR LOS NOMBRES EN LAS TABLAS DE ADMINISTRADOR ES NECESARIO AGREGAR LA SIGUIENE LINEA EN EL ARCHIVO models.py DENTRO DE LA APLICACION,
+-- DEPENDIENDO DE QUE NOMBRE SE QUIERE MOSTRAR
+#PARA MOSTRAR EN EL PANEL ADMINISTRADOR QUE DATOS SE VISUALIZAN
+def __str__(self):
+return self.titulo
+
+
+-- DESPUES EMPEZAMOS A CREAR VISTAS Y GUARDAMOS EN CARPETAS Y LOS URLS
+from django.shortcuts import render,get_object_or_404 #importamos funciones de operacion para django
+from django.http import HttpResponse, JsonResponse #para mostrar mensajes o resultados en la pagina
+from .models import proyecto, tareas #importamos los modelos
+
+def index(request):
+    # return HttpResponse('<h1>Página Inicial <h1>')
+    titulo = 'esto es un titulo desde vistas'
+    return render(request,"index.html", { 'titulo': titulo})
+
+
+def proyect(request):
+    # proy= list(proyecto.objects.values())
+    proy = proyecto.objects.all()
+    # return HttpResponse('<h1>Proyecto <h1>')
+    # return JsonResponse(proy, safe=False)
+    return render(request,"proyecto/proyecto.html", {'proy':proy})
+
+def tarea(request): #titulo
+    # busqueda por id 
+    # tar = tareas.objects.get(id_tareas=id)
+    # tar = get_object_or_404(tareas, id_tareas = id)
+
+    #busqueda por titulo
+    # tar = tareas.objects.get(titulo=titulo)
+    # return HttpResponse('Tareas : %s' % tar.titulo)
+    tar = tareas.objects.all()
+    return render(request,"tareas/tareas.html", {'tar':tar})
+
+
+-- AHORA CREAMOS LOS URL DE LAS VISTAS
+
+#importamos la libreria url para usar la funcion path
+from django.urls import path
+from . import views
+
+
+urlpatterns = [
+    path("", views.index),
+    path("hola/<str:usuario>", views.hola),
+    path("proyecto/", views.proyect),
+    path("tareas/", views.tarea), #<str:titulo>
+    path("alta_tareas/", views.alta_tarea), #<str:titulo>
+
+]
+
+
+
+-- PODEMOS CREAR UNA PLANTILLA BASE PARA DESPUES HEREDARLA
+<title>{% block titulo %} {% endblock %}</title>
+ <main>
+        {% block body %}
+	{% endblock %}
+</main>
+
+
+-- Y PARA HEREDARLA EN LAS VISTAS HTML GENERAMOS EL SIGUIENTE CODIGO
+{% extends "layout/plantilla.html" %}
+{% block titulo %} Pagina Tareas{% endblock %}
+
+{% block body %}
+<h1>Tareas</h1>
+<a href="/alta_tareas">alta_tarea</a>
+<ul>
+    {% for t in tar %}
+    <li>{{ t.titulo }}</li>
+    {% if t.realizado == False %}
+    <span style="color: red;">No se ha realizado</span>
+    {% else %}
+    <span style="color: green;"> ya se realizo</span>
+    {% endif %}
+    {% endfor %}
+</ul>
+{% endblock %}
+
+
+==============================================    PARA LOS FORMULARIOS DE DJANGO    ===================================================================
+
+-- PARA CREAR FORMULARIOS ES NECESARIO GENERAR UN ARCHIVO DE FORMA MANUAL LLAMADO forms.py E IMPORTAMOS LAS LIBRERIAS
+NOTA: SE HACE EL PROCESO PERO !!NOOO!!! ES NECESARIO HACERLO YA QUE NO NOS GUSTA COMO SE VE
+
+
+from django import forms
+
+-- CREAMOS UNA CLASE DONDE COLOCAREMOS QUE FORMS LLEVARAN
+class tareas_form(forms.Form):
+    titulo = forms.CharField(label='titulo:',max_length=200)
+    descripcion = forms.CharField(label='Descripcin',widget=forms.Textarea)
+
+-- EN VIEWS AGREGAMOS EL FORM Y LO MANDAMOS EN LA VISTA HTML
+from .forms import tareas_form
+
+def alta_tarea(request):
+    return render(request,"tareas/alta_tarea.html", {'form': tareas_form})
+
+
+-- EN LA VISTA TENEMOS QUE MANDAR A LLAMAR EL FORM
+
+<form action="" method="post">
+    {{ form }}
+    {% csrf_token %}
+    <button>Guardar</button>
+</form>
+
+
+==============================================PARA LOGGIN CON FORMS DJANGO====================================================================================
+
+-- PARA CREAR UN LOGIN ES NECESARIO QUE EN EL ARCHIVO views.py DE LA CARPETA DEL APPS SE IMPORTEN ESTAS LIBRERIAS
+from django.contrib.auth.forms import UserCreationForm
+
+
+-- DEFINIMOS UNA FUNCION PARA MANDAR EL FORMULARIO QUE DJANGO YA LO TIENE DE MANERA POR DEFECTO
+def loggin(request):
+    return render(request, "loggin/inicio_sesion.html",{'form':UserCreationForm})
+
+
+-- PARA PODER REGISTRAR LOS USUARIOS ES NECESARIO IGUAL MANERA IMPORTAR LIBRERIAS EN EL ARCHIVO views.py EN LA CARPETA APPS
+from django.contrib.auth.models import User
+
+usuario = request.POST['username']
+contra1 = request.POST['password1']
+contra2 = request.POST['password2']
+
+if contra1 == contra2:
+    new_user = User.objects.create_user(username=usuario,password=contra1)
+    new_user.save()
+    return HttpResponse("<h1>Usuario creado</h1>")
+
+
+================================     <<<<<<< ESTE ES PARA LOGGIN Y SESIONES SIN FORMS DJANGO ESTE ES EL QUE SE USA >>>>      ====================================
+-- RECIBIMOS VARIABLES
+correo_us = request.POST['correo_usu']
+contras = request.POST['pass']
+
+-- CONSULTAMOS AL USUARIO Y CONTRASEÑA EN NUESTRA TABLA DE SESIONES Y REALIZAMOS AUTENTICACION
+#consultar usuario o correo
+# _correo_us = sesiones.objects.filter(correo=correo_us) | sesiones.objects.filter(usuario_sesion=correo_us)
+# el Q sirve para concatenar condiciones pero solo son para los OR en AND no sirve
+_correo_us = sesiones.objects.filter(Q(correo=correo_us) | Q(usuario_sesion=correo_us))
+
+#autenticamos al usuario y contraseña
+ses = authenticate(request, usuario_sesion=correo_us,contra=contras)    
+
+
+-- CONSULTAMOS QUE EL USUARIO EXISTA EN LA TABLA DE SESIONES, TOMAMOS EL PRIMER REGISTRO ENCONTRADO Y ALMACENAMOS CONTRASEÑA Y ID USUARIO
+# Verificar si el usuario existe
+    if _correo_us.exists():
+
+        # Asegurarse de obtener el primer usuario encontrado
+        user = _correo_us.first()
+        # Obtener la contraseña almacenada en la base de datos
+        _contra = user.contra
+        #obtenemos id de sesion
+        _id_sesion = user.id_sesion
+
+
+-- EMPEZAMOS A ENCRIPTAR NUESTRA CONTRASEÑA CON EL CODE DE UTF-8 Y A SU VEZ CONSULTAMOS QUE LA CONTRASEÑA INGRESADA SE ENCUENTRE ACTIVA Y NO EN RESTABLECER
+        #colocamos encode a la contraseña del input
+        contra_bytes = contras.encode("utf-8")
+
+        #consultamos en la tabla restablece contras la ultima contraseña activa por el usuario
+        _restablece_pass = restablecer_contras.objects.filter(fk_sesion_id = _id_sesion, activa = 'SI', bandera = 1).count()
+
+
+
+-- COMPARAMOS LA CONTRASEÑA ENCRIPTADA DE LA BD Y LA CONTRRASEÑA RECIBIDA DEL INPUT
+
+# condicion para comparar la contraseña del input contra la contraseña de la bd que tiene bcrypt
+        if bcrypt.checkpw(contra_bytes,_contra.encode("utf-8")) and _restablece_pass == 1:
+
+
+
+--- CREAMOS VARIABLES DE SESION PARA DESPUES MOSTRARLAS EN VISTAS O REALIZAR CONDICIONES POR PERMISOS
+            #agregamos variables de sesiones
+            usu_correo = request.session['usu_correo'] = user.correo
+            usu_usuario = request.session['usu_usuario'] = user.usuario_sesion
+            usu_uuid = request.session['usu_uuid'] = user.uuid_sesion.__str__()
+            usu_permisos = request.session['usu_permisos'] = user.fk_permisos_id
+
+
+
+
+
+-- OBTENEMOS IP DE LA MAQUINA
+            hostname = socket.gethostname()
+            IPAddr = socket.gethostbyname(hostname)
+
+
+--- GUARDAMOS REGISTROS EN LA TABLA
+            _historial_sesion = historial_sesiones.objects.create(
+                fecha = timezone.now(), #feca hora actual
+                direccion_ip = IPAddr,
+                fk_sesion_id = _id_sesion,
+                nombre_equipo = hostname
+
+            )
+  
+
+
+--      REALIZAMOS UN RETUN HACIA UNA RUTA    
+            return redirect('inicio')
+
+-- CONDICION DE MENSAJES DE ERROR QUE SE MOSTRARAN EN LA PANTALLA 
+        else: 
+            messages.error(request,'La contraseña son incorrectos')
+            return redirect('iniciar_sesion')
+
+
+======================= PARA MENSAJES O ALERTAS  =================================================================
+
+-- PARA EL MANEJO DE ERRORES SE PUEDE UTILIZAR EL METODO RENDER EN LAS VISTAS, PERO DE IGUAL MANERA SE PUEDE USAR MENSAJES FLASH
+-- METODO RENDER !!!!! NOTA: NO SE USA ESTE METODO PERO ES FUNCIONAL!!!!!!!
+return render(request, "loggin/registra_usuario.html",{'form':UserCreationForm, 'msj': 'Usuario Creado'})
+
+
+-- PARA MOSTRARLO EN EL HTML SE HACE DE ESTA FORMA DE MANDAR VARIABLE A LA VISTA
+<span>
+   {{ msj }}
+</span>
+
+
+
+--- PARA LOS MENSAJES FLASH EN EL ARCHIVO views.py DE LA CARPETA APPS SE TIENE QUE IMPORTAR LA LIBRERIA
+--- !!!! NOTA: USAMOS ESTE METODO PARA LOS MENSAJES !!!!!
+from django.contrib import messages
+
+messages.error(request,'Se te ha enviado un mensaje al correo %s para que continues con los pasos a seguir'%correo)
+
+-- PARA MOSTRARLA EN LA VISTA SE TIENE QUE HACER DE LA SIGUIENTE MANERA
+{% if messages %}
+	{% for message in messages %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong class="text-dark">{{ message }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+
+
+-- PARA CREAR VARIABLES DE SESION O COOKIES SE NECESITA ENTRAR AL ARCHIVO views.py EN LA CARPETA APPS/LOGGIN <- (CARPETA DONDE ESTA LA APP PARA INICIAR SESION)
+from django.contrib.auth import login
+
+-- PARA DESPUES CREAR LAS VARIABLES DE SESION EN LAS FUNCIONES
+login(request,new_user)
+
+#NOTA MENTAL MECANICA XD: NO PUEDO ENVIAR VARIABLES A UNA RUTA SI ESTA FUE RECIBADA POR EL METODO POST
+
+
+-- PARA CUANDO SE SUBA EL PROYECTO AL SERVIDOR, TENEMOS QUE CONFIGURAR EL ALLOWED_HOST Y EL DEBUG
+DEBUG = False
+ALLOWED_HOSTS = ['*','http://localhost:8000','http://127.0.0.1:8000/']
+
+
+-- PARA ACTUALIZAR UNA FECHA DE FORMA AUTOMATICA A LA FECHA ACTUAL ES NECESARIO IMPORTAR ESTA LIBRERIA EN CUALQUIER ARCHIVO
+from django.utils import timezone
+
+
+-- PARA VALIDAR QUE UN USUARIO YA ESTE LOGUEADO Y EJECUTAR FUNCIONES, ESTE PARAMETRO COLOCAR ANTES DE DEFINIR LA FUNCION EN LAS VISTAS
+@login_required
+def alta_tareas(request):
+
+
+-- PARA TAMIEN REDIRECCIONAR QUE SI SE ENTRA EN CUALQUIER PAGINA ES NECESARIO QUE SE LOGUEEN Y AGREGAMOS CONFIGURACION EN EL ARCHIVO settings.py DEL PROYECTO PRINCIPAL
+#PARA PROTEGER VISTAS SI NO ESTA LOGUEADO
+LOGIN_URL = "/loggin" --> ruta de la url donde esta el proyecto de loggin
+
+
+
+-- ================================= PARA INSTALAR Y OBTENER LOS CODIGOS POSTALES DE MEXICO A TRAVES DE UNA API  =============================================
+-- INSTALAMOS LA API 
+pip install django-postalcodes-mexico django
+
+-- DESPUES CORREMOS MIGRACIONES
+python manage.py makemigrations
+python manage.py migrate
+
+-- NOTA: SI MANDA ERROR POR ALGUNA RAZON POR LA CANTIDAD DE DATOS QUE ES, ES NECESARIO MODIFICAR EN LA ABSE DE DATOS LAS SIGUIENTE LINEA DE CODIGO
+-- NOTA2: SI ESTRAMOS USANDO XAMPP SE PUEDDE MODIFICAR EN EL ARCHIVO my.ini SI ESTAMOS USANDO ALGUN OTRO PORGRAMA PARA EJECUTAR MYSQL O MARIADB 
+-- ES NECESARIO BUSCAR EL ARCHIVO my.ini y anexar la siguiente linea de código
+max_allowed_packet=100M
+
+-- DE IGUAL MANERA EJECUTAMOS ESTA LINEA EN EL SISTEMA GESTOR DE BD
+SET GLOBAL max_allowed_packet=1073741824;
+
+-- PODEMOS VERIFICAR QUE LA CANTIDAD DE DATOS PERMITIDOS HAYA CAMBIADO, POR DEFAULT SON 16MB Y SE CAMBIARON A 1GB
+SELECT @@max_allowed_packet;
+SELECT @@max_allowed_packet / 1024 / 1024;
+
+-- EN EL ARCHIVO settings.py DE NUESTRO PROYECTO PRINCIPAL EN EL APARTADO DE installed_apps  AGREGAMOS LA SIGUIENTE LINEA DE CODIGO
+'django_postalcodes_mexico.apps.DjangoPostalcodesMexicoConfig',
+
+
+-- VOLVEMOS A CORRER MIGRACIONES
+python manage.py migrate
+
+
+-- EJECUTAMOS EL SIGUIENTE COMANDO PARA INSERTAR E INSTALAR TODOS LOS CODIGOS POSTALES 
+python manage.py importpostalcodesmx
+
+-- EN NUESTRO ARCHIVO DE urls.py DE NUESTRO PROYECTO PRINCIPAL AGREGAMOS LAS SIGUIENTES LINEAS DE CODIGO
+from django_postalcodes_mexico import urls as django_postalcodes_mexico_urls
+
+path('api/', include(django_postalcodes_mexico_urls)),
+
+
+-- PROBAMOS QUE LA INSTALACION Y LA CONSULTA SE HAYAN HECHO DE MANERA CORRECTA DEBE DEVOLVER UN JSON
+localhost:8000/api/09000/
+
+
+-- ESTE CODIGO VA EN NUESTRA VISTA 
+_cp = request.POST['cp']
+
+ # URL de productos
+    URL_API = "http://127.0.0.1:8000/codigos/"+ str(_cp)
+
+    # Realizar la solicitud GET a la API
+    response = requests.get(URL_API)
+
+    if response.status_code == 200:
+        codigo = response.json()
+        
+        # for codigo in codigo:
+        #     print(codigo)
+        # _cp = _cp.split(' ')
+        # return JsonResponse(productos)
+        
+        # return JsonResponse(codigo_postal)
+
+        return render(request,"registrar/consulta_cp.html",{'cp': codigo})
+    else:
+        # Lista vacia
+        productos = []
+
+
+
+
+
+--================================================= PARA ENCRIPTAR CONTRASEÑA====================================================
+-- INSTALAMOS LIBRERIA
+pip install bcrypt
+
+-- IMPORTAMOS LIBRERIA
+import bcrypt
+
+
+-- EN EL CODIGO LO VEMOS DE ESTA MANERA
+#recibimos contraseña
+password = request.POST['pass']
+
+#codificamos contraseña a ut-8
+contra = password.encode('utf-8')
+
+#creamos variable de encyptacion
+pass_encry = bcrypt.gensalt()
+
+#encryptamos a modelo hash la contraseña
+pass_en = bcrypt.hashpw(contra, pass_encry)
+
+
+#esta linea se ocupa para que mi contraseña no se guarde en la bd como b'contraseña' y se guarde como 'contraseña' 
+pass_decode = pass_en.decode("utf-8")
+
+
+#guardamos en la tabla de la base de datos un nuevo registro
+    _sesion = sesiones.objects.create(
+        correo = correo,
+        usuario_sesion = usuario,
+        contra = pass_decode,
+        fk_permisos_id = 1,
+        fk_usuario_id = usu_filtro.id_usuarios
+    )
+
+--================================================= PARA DECIFRAR CONTRASEÑA====================================================
+ correo_us = request.POST['correo_usu']
+ contras = request.POST['pass']
+
+#consultar usuario o correo
+    # _correo_us = sesiones.objects.filter(correo=correo_us) | sesiones.objects.filter(usuario_sesion=correo_us)
+    # el Q sirve para concatenar condiciones
+    _correo_us = sesiones.objects.filter(Q(correo=correo_us) | Q(usuario_sesion=correo_us))
+
+    # Verificar si el usuario existe
+    if _correo_us.exists():
+
+        # Asegurarse de obtener el primer usuario encontrado
+        user = _correo_us.first()
+        # Obtener la contraseña almacenada en la base de datos
+        _contra = user.contra
+
+        #colocamos encode a la contraseña del input
+        contra_bytes = contras.encode("utf-8")
+
+        # return HttpResponse("contra de bd= %s" %_contra + "<br> contra de input= %s" %contra_bytes + "<br> pw = %s" %pw + "<br>res_con = %s" %_c)
+    
+        # condicion para comparar la contraseña del input contra la contraseña de la bd que tiene bcrypt
+        if bcrypt.checkpw(contra_bytes,_contra.encode("utf-8")):
+            return HttpResponse("ayuda")
+        else: 
+            messages.success(request,'La contraseña son incorrectos')
+            return redirect('iniciar_sesion')
+  
+    else:
+        messages.success(request, 'El usuario/correo son incorrectos')
+        return redirect('iniciar_sesion')
+
+
+
+
+-- PARA OBTENER LA DIRECCION IP  ES CON LA SIGUIENTE. 
+import socket
+hostname = socket.gethostname()
+IPAddr = socket.gethostbyname(hostname)
+
+
+
+-- ##################################################### PARA ENVIAR CORREO ##################################################################
+-- EN NUESTRO ARCHIVO settings.py DEL PROYECTO PRINCIPAL CONFIGURAMOS EL SERVIDOR DE CORREO
+#para lodod correo ####################################################################################
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'al221611668@gmail.com'
+EMAIL_HOST_PASSWORD = 'aczb wsug ugsg pabz'
+EMAIL_USE_TLS = True
+# EMAIL_USE_SSL
+# EMAIL_TIMEOUT
+# EMAIL_SSL_KEYFILE
+# EMAIL_SSL_CERTFILE
+
+
+
+-- DESPUES EN NUESTRO ARCHIVO views.py DE LA APP QUE ESTAMOS TRABAJANDO PARA CORREO ES NECESARIO IMPORTAR ESTAS LIBRERIAS
+#para correo
+from django.core.mail import EmailMessage, EmailMultiAlternatives 
+from django.template.loader import render_to_string
+from django.conf import settings
+
+
+-- TAMBIEN DEBEMOS DE CREAR UN TEMPLATE DEL CORREO DONDE SE COLOCARA EL CUERPO DEL CORREO Y DEBEMOS MANDARLO A LLAMAR
+template = render_to_string('correo/correo.html',{'correo': correo})
+
+
+-- PARA DESPUES EN LA FUNCION DE NUESTRA VISTA QUE EJECUTARA EL CORREO COLOCAR ESTO, DEPENDERA SI QUEREMOS FORMATO HTML O NO
+-- ==================== PARA CORREOS SIN FORMATO HTML =========================
+        email = EmailMessage(
+            'Solicitud de activacion de cuenta administrador',
+            template, #hoja donde se muestra el contenido del correo
+            settings.EMAIL_HOST_USER, #configuracion del host 
+            [correo] #el mail hacia donde se enviara el correo
+        )
+
+
+        email.fail_silently = False
+        email.send()
+
+
+
+ -- ================================ #PARA CORREO CON FORMATO HTML    ==============================================
+        subject = "Solicitud de activacion de cuenta administrador"
+        from_email = "al221611668@gmail.com"
+        to = correo
+        text_content = template
+        html_content = template
+        msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+        # msg.attach_file("../media/fondos/img3.webp")
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
+
+
+
+-- =================================== PARA ELIMINAR MIGRACIONES DE UNA SOLA APP ===================================
+
+
+-- PRIMERO DEBEMOS ESTAR EN LA CARPETA DEL PROYECTO
+cd C:\proyectos_python\punto_venta
+
+-- Hacer una copia del archivo __init__.py
+copy apps\productos\migrations\__init__.py __init__.bak
+
+-- Borrar todos los archivos de migración
+del apps\productos\migrations\*.py 
+
+-- Restaurar el archivo __init__.py
+move __init__.bak apps\productos\migrations\__init__.py
+
+-- Borrar los archivos .pyc
+del apps\productos\migrations\__pycache__\*.pyc
+
+-- Resetear el estado de las migraciones (fake)
+python manage.py migrate productos zero --fake
+
+-- Crear nuevas migraciones
+python manage.py makemigrations productos
+
+-- Aplicar las migraciones
+python manage.py migrate productos
+
+==========>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>NO SIRVIO =============>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+-- NOTA: ESTO NO ELIMINA LAS TABLAS DE LA BD HAY QUE ELIMINARLAS DE FORMA MANUAL
+
+-- AQUI BUSCAMOS EL NOMBRE DE LA APP Y BUSCAMOS MIGRACIONES PARA ELIMINARLAS
+find productos/migrations/ -not -name '__init__.py' -name '*.py' -delete
+
+-- DESPUES HACEMOS LA ELIMINACION COMPLETA EN LA BD
+find productos/migrations/ -name '*.pyc' -delete
+
+-- DESPUES VOLVEMOS A CORRER MIGRACIONES 
+python manage.py makemigrations productos
+python manage.py migrate productos
+
+
+
+-- ELIMINAMOS TODAS LAS MIGRACIONES DEL PROYECTO COMO DE LA BD
+find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
+find . -path "*/migrations/*.pyc"  -delete
+
+-- DESPUES VOLVEMOS A EJECUTAR MIGRACIONES
+python manage.py makemigrations
+python manage.py migrate
+
+
+
+
+
+
+==========>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>NO SIRVIO =============>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+
+
