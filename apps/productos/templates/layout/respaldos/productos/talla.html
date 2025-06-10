@@ -1,0 +1,34 @@
+<!-- <option value="0">Seleccionar</option>
+{% for t in talla %}
+    <option value="{{ t.talla }}">{{ t.talla }}</option>
+{% endfor %} -->
+
+<!-- 
+    <div class="form-check form-check-inline">
+        <input class="form-check-input  check_talla" type="checkbox" name="talla" id="small" value="SMALL">
+        <label class="form-check-label check_label" for="small">SMALL</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input  check_talla" type="checkbox" name="talla" id="medium" value="MEDIUM">
+        <label class="form-check-label check_label" for="medium">MEDIUM</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input  check_talla" type="checkbox" name="talla" id="large" value="LARGE">
+        <label class="form-check-label check_label" for="large">LARGE</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input  check_talla" type="checkbox" name="talla" id="xlarge" value="XLARGE">
+        <label class="form-check-label check_label" for="xlarge">XLARGE</label>
+    </div>
+</div> -->
+<div class="input-group mb-3">
+    {% for t in talla %}
+        <!-- <span class="input-group-text"><i class="fa-solid fa-file-lines"></i></span> -->
+        <div class="form-check form-check-inline div_check">
+            <input class="form-check-input check_talla" type="checkbox" name="talla" id="{{ t.talla }}"
+                value="{{ t.id_tipo_prod }}">
+            <label class="form-check-label check_label" for="{{ t.talla }}">{{ t.talla }}</label>
+        </div>
+    {% endfor %}
+
+</div>

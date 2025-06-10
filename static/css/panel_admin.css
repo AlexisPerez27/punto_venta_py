@@ -1,0 +1,644 @@
+a {
+    text-decoration: none;
+    /*para quitar la linea debajo de los links*/
+}
+
+li {
+    list-style-type: none;
+    /*para quitar los puntos de las listas*/
+}
+
+body {
+    /* para el tipo de letra */
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.wrapper {
+    /* para colocar el div todo junto hacia la izquierda */
+    display: flex;
+}
+
+.main {
+    /*para que el div main se coloque en el centro y no tome el div wrapper*/
+    display: flex;
+    /* se haga una columna el div main */
+    flex-direction: column;
+    /* definimos dimensiones  */
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    /* tiempo de transiciones en entrada y salida */
+    transition: all 0.25s ease-in-out;
+    -webkit-transition: all 0.25s ease-in-out;
+    -moz-transition: all 0.25s ease-in-out;
+    -ms-transition: all 0.25s ease-in-out;
+    -o-transition: all 0.25s ease-in-out;
+    /* color de fondo */
+    background: linear-gradient(to right, #d3d3d3, #ffffff);
+    /* background-color: #f4f6f9; */
+}
+
+
+/* para el div de content */
+.content {
+    flex: 11 auto;
+    top: 15px;
+}
+
+
+/* ============================================ para el side bar ====================================== */
+/* aqui hacemos que el sidebar sea una columna en toda nuestra pagina  */
+#sidebar {
+
+    /* position: fixed; */
+    width: 70px;
+    min-width: 70px;
+    transition: all 0.25s ease-in-out;
+    -webkit-transition: all 0.25s ease-in-out;
+    -moz-transition: all 0.25s ease-in-out;
+    -ms-transition: all 0.25s ease-in-out;
+    -o-transition: all 0.25s ease-in-out;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+}
+
+/* decimos que cuando se expanda el sidebar cambie los estilos */
+#sidebar.expand {
+    width: 280px;
+    min-width: 280px;
+}
+
+/* decimos que cuando el sidebar regrese a ser pequeño el logo del sidebar no se dispare */
+/* el segundo es para ocultar los textos de los links cuando el sidebar es pequeño */
+#sidebar:not(.expand) .sidebar-logo,
+#sidebar:not(.expand) a.sidebar-link span,
+#sidebar:not(.expand) .sidebar-user span {
+    display: none;
+}
+
+/* para darle estilo al boton del toggle */
+.toggle-btn {
+    width: 30px;
+    height: 30px;
+    color: #ffffff;
+    border-radius: 0.425rem;
+    -webkit-border-radius: 0.425rem;
+    -moz-border-radius: 0.425rem;
+    -ms-border-radius: 0.425rem;
+    -o-border-radius: 0.425rem;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #7bffb2;
+}
+
+/* para cambiar el color del boton cuando se coloque encima el mouse */
+.toggle-btn:hover {
+    background-color: #49d684;
+}
+
+
+/* para el diseño de las listas desplegables */
+.toggle-btn i {
+    color: #000000;
+}
+
+/* aqui es para dar la animacion de expander cuando el side bar se expande */
+#sidebar.expand.sidebar-logo,
+#sidebar.expand a.sidebar-logo span {
+    animation: fadeIn .25s ease;
+    -webkit-animation: fadeIn .25s ease;
+}
+
+/* opacidad para un frame de fadeIn */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+/* para dar estilo al sidebar del logo */
+.sidebar-logo a {
+    color: #000000;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+/* aqui estamos acomodando los links de sidebar nav hasta la izquierda */
+.sidebar-nav {
+    /* quitamos el margen de padin y lo colocamos en 0.5 sirve para colocar el icono hacia la izquierda*/
+    padding: 0.01rem 0;
+    /* aqui decimos el espacio que ocupara el icono en su seccion */
+    flex: 11 auto;
+    /* sirve para decir que un icono se sobrepondra en este y que posicion tendra */
+    z-index: 10;
+}
+
+
+/* le damos estilo a los iconos de los links en la lista */
+a.sidebar-link {
+    /* para dar espacio entre los iconos como un tipo de margen */
+    padding: .625rem 1.2rem;
+    /* le damos el color blanco a los textos */
+    color: #302f2f;
+    /* colocamos como cada icono como un block y este tenga un espacio mas amplio */
+    display: block;
+    /* sirve para quitar espacio en blanco en texto e iconos*/
+    white-space: nowrap;
+    /* define el tamaño de los iconos y texto */
+    font-weight: 700;
+    /* damos un border */
+    border-left: 3px solid transparent;
+}
+
+/* para dar espacios y margen a la derecha a los links de enlace  */
+.sidebar-link i,
+.dropdown-item {
+    font-size: 1.1rem;
+    margin-right: .75rem;
+}
+
+
+/* para cuando se le pase encia el mouse sobre los links este se ilumine */
+a.sidebar-link:hover {
+    /* le damos a los links un bg con un color */
+    background-color: rgba(255, 255, 255, .15);
+    /* mostramos el borde de un color pero solo el lado izquierdo */
+    border-left: 3px solid #63f763;
+}
+
+
+/* le damos una posicion a los links */
+.sidebar-item {
+    position: relative;
+}
+
+/* aqui decimoos que si aun no se expande el side bar en los links y dorpdown les de el siguiente estilo en tamaño */
+#sidebar:not(.expand) .sidebar-item .sidebar-dropdown {
+    /* posicion absoluta */
+    position: absolute;
+    /* en el top lo quitamos */
+    top: 0;
+    /* la posicion inicial la colocamos en el siguiente dato */
+    left: 70px;
+    /* el colorr del bg */
+    background-color: #ffffff;
+    /* el padding tambien se quita */
+    padding: 0;
+    /* el minimo de ancho */
+    min-width: 18rem;
+    /* yy quitamos en que se despliegue */
+    display: none;
+}
+
+/* este es para cuando se ponga encima de los links */
+#sidebar:not(.expand) .sidebar-item:hover .has-dropdown+.sidebar-dropdown {
+    display: block;
+    max-height: 15em;
+    width: 100%;
+    opacity: 1;
+}
+
+
+/* aqui decimoos que si aun no se expande el side bar en los links y dorpdown les de el siguiente estilo en tamaño PERO PARA LOS MULTI LINKS*/
+#sidebar:not(.expand) #multi .sidebar-item .collapse {
+    /* posicion absoluta */
+    position: absolute;
+    /* en el top lo quitamos */
+    top: 0;
+    /* la posicion inicial la colocamos en el siguiente dato */
+    left: 270px;
+    /* el colorr del bg */
+    background-color: #ffffff;
+    /* el padding tambien se quita */
+    padding: 0;
+    /* el minimo de ancho */
+    min-width: 15rem;
+    /* yy quitamos en que se despliegue */
+    display: none;
+}
+
+
+/* este es para cuando se ponga encima de los MULTI LINKS*/
+#sidebar:not(.expand) #multi .sidebar-item:hover .has-dropdown+.sidebar-dropdown {
+    display: block;
+    max-height: 15em;
+    width: 100%;
+}
+
+
+/* para que cuando la barra esta expandida muestre las flechas de expandir en los multi links girar flecha hacia ABAJO */
+#sidebar.expand .sidebar-link[data-bs-toggle="collapse"]::after {
+    border: solid;
+    border-width: 0 .075rem .075rem 0;
+    content: "";
+    display: inline-block;
+    padding: 2px;
+    position: absolute;
+    right: 1.5rem;
+    top: 1.4rem;
+    transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+    -moz-transform: rotate(-135deg);
+    -ms-transform: rotate(-135deg);
+    -o-transform: rotate(-135deg);
+    transition: all .2s ease-out;
+    -webkit-transition: all .2s ease-out;
+    -moz-transition: all .2s ease-out;
+    -ms-transition: all .2s ease-out;
+    -o-transition: all .2s ease-out;
+}
+
+
+/* para que cuando la barra esta expandida muestre las flechas de expandir en los multi links girar flecha hacia ARRIBA */
+#sidebar.expand .sidebar-link[data-bs-toggle="collapse"].collapsed::after {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transition: all .2s ease-out;
+    -webkit-transition: all .2s ease-out;
+    -moz-transition: all .2s ease-out;
+    -ms-transition: all .2s ease-out;
+    -o-transition: all .2s ease-out;
+}
+
+
+/* para darle psoicion de un elemento debajo del otro */
+.sidebar-dropdown .sidebar-link {
+    position: relative;
+    padding-left: 3rem;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -ms-transition: all 0.5s;
+    -o-transition: all 0.5s;
+}
+
+
+/* para darle un elemento de un border a los links de una forma que sea como un guion (-) */
+.sidebar-dropdown a.sidebar-link::before {
+    content: "";
+    height: 0.125rem;
+    width: 0.375rem;
+    background-color: #bebebe;
+    position: absolute;
+    left: 1.8rem;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -ms-transition: all 0.5s;
+    -o-transition: all 0.5s;
+}
+
+
+/* para cuando se le coloque encima el mouse haga la transicion tipo animacion y se resalte el link */
+.sidebar-dropdown a.sidebar-link:hover {
+    background: transparent;
+    border-left: 3px solid transparent;
+    padding-left: 3.8rem;
+    color: #7277f2;
+}
+
+/* ===================== para el sidebar menu estatico ============================================== */
+
+.sidebar-menu {
+    position: fixed;
+    z-index: 11;
+}
+
+
+.sidebar-footer {
+    position: fixed;
+    z-index: 2;
+    /* background-color: #fff; */
+    width: 70px;
+
+}
+
+/* ============================ para tamaño de iconos y colores =============================================================== */
+.icon {
+    font-size: 90px;
+    position: absolute;
+    right: 50px;
+    top: 15px;
+    color: rgba(0, 0, 0, .20);
+    transition: -webkit-transform .3s linear;
+    transition: transform .3s linear;
+    transition: transform .3s linear, -webkit-transform .3s linear;
+    -webkit-transition: transform .3s linear, -webkit-transform .3s linear;
+    -moz-transition: transform .3s linear, -webkit-transform .3s linear;
+    -ms-transition: transform .3s linear, -webkit-transform .3s linear;
+    -o-transition: transform .3s linear, -webkit-transform .3s linear;
+}
+
+
+.target:hover .icon {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    -o-transform: scale(1.1);
+}
+
+
+/* para condicion cuando la pantalla es menor de 1300px */
+@media (max-width:1300px) {
+    .target {
+        text-align: center
+    }
+
+    .target .icon {
+        display: none
+    }
+
+    .target p {
+        font-size: 12px
+    }
+}
+
+/* para condicion que la pantalla sea menor a 574px */
+@media (max-width:574px) {
+
+    .target .icon {
+        display: contents;
+        font-size: 80px;
+        right: 20px;
+        top: 150px;
+    }
+}
+
+
+/* para los botones hover de las cards */
+.box-footer:hover {
+    background-color: rgba(0, 0, 0, 0.15);
+    color: #fff;
+}
+
+
+
+/* ============================== para navbar ================================================================================= */
+.navbar {
+    background-color: #ffffff;
+    box-shadow: 0 0 2rem 0 rgba(33, 37, 41, .1);
+    /* left: 70px; */
+}
+
+.navbar-expand .navbar-collapse {
+    min-width: 200px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 75%;
+    -webkit-border-radius: 75%;
+    -moz-border-radius: 75%;
+    -ms-border-radius: 75%;
+    -o-border-radius: 75%;
+}
+
+.link-nav {
+    color: rgba(131, 127, 127, 0.8);
+    text-decoration: none;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 19px;
+}
+
+.link-nav:hover {
+    color: rgba(68, 68, 68, 0.8);
+    text-decoration: none;
+}
+
+.navbar-nav {
+    margin-bottom: 9px
+}
+
+
+
+/* ========================================= estilos a los cards  =================================================== */
+.card {
+    transition: .4s;
+    -webkit-transition: .4s;
+    -moz-transition: .4s;
+    -ms-transition: .4s;
+    -o-transition: .4s;
+    /* cursor: pointer; */
+    color: black;
+    margin-bottom: 1rem;
+    border-color: rgba(231, 234, 243, 0.7);
+}
+
+.card h6 {
+    text-transform: uppercase;
+    font-size: .7161rem;
+    margin-bottom: .25rem;
+}
+
+/* ================================ este es para las graficas echarts ================================================= */
+#chart-container {
+    position: relative;
+    height: 50vh;
+    overflow: hidden;
+}
+
+
+
+/* ========================== para dar  estilo a la tabla =================================  */
+
+#tabla1>thead tr {
+    text-align: left;
+}
+
+#tabla1>thead tr.encabezado th {
+    background-color: #4f8ce7;
+    border: solid 2px #002966;
+    color: #fff;
+}
+
+
+
+/* ========================== para el footer ==================================================== */
+footer {
+    background-color: #ffffff;
+    padding: .700rem .975rem;
+    z-index: 0;
+    /*  position: fixed;
+    left: 70px;*/
+    top: 95.3%;
+    width: 100%;
+}
+
+
+
+@media(min-width:768px) {
+    .input-group-navbar .form-control:focus {
+        outline: none;
+        box-shadow: 0 0 0 0 rgba(255, 255, 255);
+        border: none;
+        background-color: #fff;
+    }
+
+    .input-group-navbar {
+        max-width: 320px;
+
+    }
+
+    .input-group-navbar .form-control {
+        color: #3e4455;
+        background-color: #fff;
+        height: calc(2.44375rem + 2px);
+    }
+
+
+    .input-group-navbar .btn {
+        color: black;
+        background-color: #fff;
+        z-index: 1000;
+    }
+
+
+    .input-group-navbar .btn:active {
+        background-color: #f5f5f5;
+    }
+
+
+    .navbar-expand .navbar-nav .dropdown-menu {
+        box-shadow: 0.1rem 0.2rem rgba(0, 0, 0, .05);
+    }
+}
+
+
+/* ======================= para boton flotante de scroll up  =====================================*/
+.cmn-divfloat {
+    position: fixed !important;
+    bottom: 45px;
+    right: 15px;
+    display: none;
+}
+
+.cmn-btncircle {
+    width: 40px !important;
+    height: 40px !important;
+    padding: 6px 0px;
+    border-radius: 15px;
+    font-size: 18px;
+    text-align: center;
+}
+
+
+
+
+/* =========================== para los checkbox ====================================== */
+
+.check_talla {
+    appearance: none;
+    cursor: pointer;
+    background-color: #fff;
+    width: 20px;
+    height: 20px;
+    appearance: none;
+    border: 2px solid #888;
+    margin-top: 5px;
+}
+
+.check_label{
+    float: left;
+    margin: 0;
+    margin-top: 5px;
+}
+
+
+.check_talla:checked {
+    background-color: #0fbf12;
+    border-color: #000000;
+}
+
+
+
+
+/* para los span que tengan clase definidas y se coloque un link en un hover se realice lo siguiente */
+.mod_seccion, .mod_tipo, .mod_color,
+.cancelar_mod_seccion,.guardar_mod_seccion,
+.cancelar_mod_tipo,.guardar_mod_tipo,
+.cancelar_mod_color,.guardar_mod_color{
+    /* background-color: red; */
+    cursor: pointer;
+}
+
+
+
+
+/* .check_talla + .check_label:before {
+	content: "";
+	width: 20px;
+	height: 20px;
+	float: left;
+	margin: 0.5em 0.5em -0.5em -2em;
+	border: 2px solid #646363;
+	background: #fff;
+}
+
+.check_talla:checked + .check_label:before {
+	border-color: #0fbf12;
+}
+
+
+.check_talla:checked + .check_label:after {
+    content: "";
+    width: 16px;
+    height: 7px;
+    border: 4px solid #0fbf12;
+    float: inline-start;
+    margin-left: -1.85em;
+    border-right: 0;
+    border-top: 0;
+    margin-top: 0.85em;
+    transform: rotate(-55deg);
+    -webkit-transform: rotate(-55deg);
+    -moz-transform: rotate(-55deg);
+    -ms-transform: rotate(-55deg);
+    -o-transform: rotate(-55deg);
+}
+
+.check_talla {
+	display: none;
+}
+
+.check_talla + .check_label {
+    font-weight: bold;
+    line-height: 3em;
+    color: #646363;
+    cursor: pointer;
+}
+.check_talla:checked + .check_label {
+    color: #0fbf12;
+}
+
+
+.check_talla + .check_label {
+    font-weight: bold;
+    line-height: 3em;
+    color: #646363;
+    cursor: pointer;
+}
+.check_talla:checked + .check_label {
+    color: #0fbf12;
+}
+
+.check_label{
+    top: -1em;
+} */

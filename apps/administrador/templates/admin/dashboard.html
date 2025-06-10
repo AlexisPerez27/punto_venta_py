@@ -1,0 +1,185 @@
+{% extends 'layout/plantilla_administrador.html' %}
+
+{% block titulo %}Administrador{% endblock %}
+
+{% block titulo_page %}Administracion de Dashboard{% endblock %}
+
+{% block page %}
+
+{% load static %}
+
+<div class="col-12 col-md-3 col-sm-3">
+    <div class="card shadow target">
+        <div class="card-body py-4 bg-info rounded-top-3 text-light">
+            <div class="row">
+                <div class="col-8">
+                    <h6 class="mb-2 fw-bold">
+                        Progreso de Miembros
+                    </h6>
+                    <p class="fw-bold mb-2">$89,156.29</p>
+                    <div class="mb-0">
+                        <span class="badge text-black me-2">+9.0%</span>
+                        <span class="fw-bold">Ultimo Mes</span>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <i class="fa-solid fa-bag-shopping icon"></i>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer rounded-bottom-3 bg-info">
+            <a href="#" class="link-light">
+                <div class="text-center box-footer">
+                    More info <i class="fas fa-arrow-circle-right"></i>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<!-- primer card -->
+<div class="col-12 col-md-3 col-sm-3">
+    <div class="card shadow target">
+        <div class="card-body py-4 bg-danger rounded-top-3 text-light">
+            <div class="row">
+                <div class="col-8">
+                    <h6 class="mb-2 fw-bold">
+                        Progreso de Miembros
+                    </h6>
+                    <p class="fw-bold mb-2">$89,156.29</p>
+                    <div class="mb-0">
+                        <span class="badge text-black me-2">+9.0%</span>
+                        <span class="fw-bold">Ultimo Mes</span>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <i class="fa-solid fa-chart-pie icon"></i>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer rounded-bottom-3 bg-danger">
+            <a href="#" class="link-light">
+                <div class="text-center box-footer">
+                    More info <i class="fas fa-arrow-circle-right"></i>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<!-- segundo card -->
+<div class="col-12 col-md-3 col-sm-3">
+    <div class="card shadow target">
+        <div class="card-body py-4 bg-warning rounded-top-3 text-light">
+            <div class="row">
+                <div class="col-8">
+                    <h6 class="mb-2 fw-bold">
+                        Progreso de Miembros
+                    </h6>
+                    <p class="fw-bold mb-2">$89,156.29</p>
+                    <div class="mb-0">
+                        <span class="badge text-black me-2">+9.0%</span>
+                        <span class="fw-bold">Ultimo Mes</span>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <i class="fa-solid fa-users icon"></i>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer rounded-bottom-3 bg-warning">
+            <a href="#" class="link-light">
+                <div class="text-center box-footer">
+                    More info <i class="fas fa-arrow-circle-right"></i>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<!-- tercer card -->
+<div class="col-12 col-md-3 col-sm-3">
+    <div class="card shadow target">
+        <div class="card-body py-4 bg-success1 rounded-top-3 text-light">
+            <div class="row">
+                <div class="col-8">
+                    <h6 class="mb-2 fw-bold">
+                        Progreso de Miembros
+                    </h6>
+                    <p class="fw-bold mb-2">$89,156.29</p>
+                    <div class="mb-0">
+                        <span class="badge text-black me-2">+9.0%</span>
+                        <span class="fw-bold">Ultimo Mes</span>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <i class="fa-solid fa-clipboard-list icon"></i>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer rounded-bottom-3 bg-success">
+            <a href="#" class="link-light">
+                <div class="text-center box-footer">
+                    More info <i class="fas fa-arrow-circle-right"></i>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<!-- fin cuarto card -->
+
+<div class="col-lg-7 col-md-6 col-sm-12 py-4">
+    <div class="card">
+        <div class="card-body">
+            <h3 class="fw-bold fs-4 my-3">Usuarios</h3>
+            <div class="table-responsive">
+                <table class="table table-bordered border-primary" id="tabla1">
+                    <thead>
+                        <tr class="encabezado">
+                            <th scope="col">#</th>
+                            <th scope="col">First</th>
+                            <th scope="col">Last</th>
+                            <th scope="col">Handle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Jacob</td>
+                            <td>Thornton</td>
+                            <td>@fat</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td colspan="2">Larry the Bird</td>
+                            <td>@twitter</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- div de card con tabla -->
+
+<div class="col-lg-5 col-md-6 col-sm-12 py-4">
+    <div class="card">
+        <div class="card-body">
+            <h3 class="fw-bold fs-4 my-3">Reporte</h3>
+            <!-- <div class="table-responsive"> -->
+            <div id="chart-container"></div>
+            <!-- </div> -->
+        </div>
+    </div>
+</div>
+<!-- fin div de grafica -->
+
+
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'js/administrador/grafica_ejemplo.js' %}"></script>
+{% endblock %}

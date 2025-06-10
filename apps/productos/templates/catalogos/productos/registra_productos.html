@@ -1,0 +1,204 @@
+{% extends 'layout/plantilla_administrador.html' %}
+
+{% block titulo %}Registrar Productos{% endblock %}
+
+{% block titulo_page %}Registrar Productos{% endblock %}
+
+{% block page %}
+
+{% load static %}
+
+
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-success alert-dismissible fade show" id="success-alert" role="alert">
+    <strong class="text-dark">{{ message }}</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+{% endif %}
+
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <h5>Registrar productos</h5>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 text-end">
+                    <a href="{% url 'productos' %}" class="btn btn-outline-primary"><i class="fa-solid fa-rotate-left"></i> Regresar</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="card-body">
+            <form action="#" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="cod_prod" class="form-label fw-bold">Codigo Producto</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fa-solid fa-list-ol"></i></span>
+                                <input type="text" class="form-control" placeholder="Codigo Producto" name="cod_prod" id="cod_prod" value="{{ cod }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="nom_prod" class="form-label fw-bold">Nombre Producto</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fa-solid fa-shirt"></i></span>
+                                <input type="text" class="form-control" placeholder="Nombre Producto" name="nom_prod" id="nom_prod">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="descripcion" class="form-label fw-bold">Descripcion Producto</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fa-solid fa-audio-description"></i></span>
+                                <textarea name="descripcion" id="descripcion" class="form-control" rows="1"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="precio" class="form-label fw-bold">Precio Producto</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fa-solid fa-money-bill-wave"></i></span>
+                                <input type="number" class="form-control" placeholder="Precio" name="precio" id="precio" step=".01" min="0">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="seccion" class="form-label fw-bold">Seccion Producto</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fa-solid fa-transgender"></i></span>
+                                <select name="seccion" id="seccion" class="form-select">
+                                    <option value="0">Seleccionar</option>
+                                    {% for s in seccion %}
+                                        <option value="{{ s.id_seccion }}">{{ s.seccion }}</option>
+                                    {% endfor %}
+                                </select>
+                                <a href="{% url 'registra_seccion' %}" class="btn btn-primary" id="add_seccion"><i class="fa-solid fa-square-plus"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="tipo" class="form-label fw-bold">Tipo Producto</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fa-solid fa-vest"></i></span>
+                                <select name="tipo" id="tipo" class="form-select">
+                                    <option value="0">Seleccionar</option>
+                                    {% for t in tipo %}
+                                        <option value="{{ t.id_tipo }}">{{ t.tipo }}</option>
+                                    {% endfor %}
+                                </select>
+                                <a href="{% url 'registra_tipo' %}" class="btn btn-primary" id="add_producto"><i class="fa-solid fa-square-plus"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="color" class="form-label fw-bold">Color Producto</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fa-solid fa-droplet"></i></span>
+                                <select name="color" id="color" class="form-select">
+                                    <option value="0">Seleccionar</option>
+                                    {% for c in color %}
+                                        <option value="{{ c.id_color }}">{{ c.color }}</option>
+                                    {% endfor %}
+                                </select>
+                                <a href="{% url 'registra_color' %}" class="btn btn-primary" id="add_color"><i class="fa-solid fa-square-plus"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="tallas" class="form-label fw-bold"> <i class="fa-solid fa-ruler-combined"></i> Tallas Producto</label>          
+                            <div class="input-group mb-3">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="talla_radio" id="vestimenta" value="v" checked>
+                                    <label class="form-check-label" for="vestimenta">Vestimenta</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="talla_radio" id="calzado" value="r">
+                                    <label class="form-check-label" for="calzado">Calzado</label>
+                                </div>
+                            </div>                  
+                            <div class="input-group mb-3">                                
+                                {% for t in tallas %}
+                                    <!-- <span class="input-group-text"><i class="fa-solid fa-file-lines"></i></span> -->
+                                    {% if t.talla|slice:"0:1"  == 'N' %} 
+                                    <div class="calzado" hidden>
+                                        <div class="form-check form-check-inline div_check">
+                                            <input class="form-check-input check_talla" type="checkbox" name="talla" id="{{ t.talla }}"
+                                                value="{{ t.id_tallas }}">
+                                            <label class="form-check-label check_label" for="{{ t.talla }}">{{ t.talla }}</label>
+                                        </div>
+                                    </div>
+                                    {% else %}
+                                    <div class="vestimenta">
+                                        <div class="form-check form-check-inline div_check">
+                                            <input class="form-check-input check_talla" type="checkbox" name="talla" id="{{ t.talla }}"
+                                                value="{{ t.id_tallas }}">
+                                            <label class="form-check-label check_label" for="{{ t.talla }}">{{ t.talla }}</label>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                {% endfor %}                             
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-end">                    
+                    <button type="button" class="btn btn-outline-success" id="add_prod">
+                        <i class="fa-solid fa-circle-plus"></i> Agregar
+                    </button>
+                </div>
+            </form>
+
+            <hr>
+            <div class="row">
+                <h2>Tabla de productos</h2>
+                <div class="table-responsive">
+                    <table class="table table-bordered border-primary">
+                        <thead>
+                            <tr>
+                                <th>Codigo Producto</th>
+                                <th>Producto</th>
+                                <th>Descripcion</th>
+                                <th>Precio</th>
+                                <th hidden>ID Seccion</th>
+                                <th>Seccion</th>
+                                <th hidden>ID Tipo</th>
+                                <th>Tipo</th>
+                                <th hidden>ID Color</th>
+                                <th>Color</th>
+                                <th hidden>ID Tallas</th>
+                                <th>Tallas</th>
+                                <th>Imagenes</th>
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="datos_prod"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer" id="guardar_prod">
+            <button class="btn btn-outline-primary"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+<div id="modal_seccion"></div>
+
+{% block script %}
+<script src="{% static 'js/catalogos/productos/productos.js' %}"></script>
+{% endblock %}

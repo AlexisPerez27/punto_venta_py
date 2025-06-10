@@ -1,0 +1,15 @@
+<label for="exampleFormControlInput1" class="form-label"><b>Estado</b></label>
+<div class="input-group mb-3">
+    <span class="input-group-text"><i class="fa-solid fa-map-location-dot"></i></span>
+    <select name="estado_select" id="estado_select" class="form-select">
+        <option value="0">Seleccionar</option>
+        {% for estado in estados_con %}
+        <option value="{{ estado.id_estados }}">{{ estado.estados }}</option>
+        {% endfor %}
+    </select>
+    <button type="button" class="btn btn-primary" title="Agregar Estado" data-bs-toggle="modal"
+        data-bs-target="#exampleModal">
+        <i class="fa-solid fa-circle-plus"></i>
+    </button>
+</div>
+<span class="text-danger fw-bold" id="span_estados"></span>

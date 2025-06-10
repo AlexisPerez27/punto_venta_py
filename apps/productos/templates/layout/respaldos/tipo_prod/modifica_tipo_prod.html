@@ -1,0 +1,95 @@
+{% extends 'layout/plantilla_administrador.html' %}
+
+{% block titulo %}Modifica Tipo Productos{% endblock %}
+
+{% block titulo_page %}Modifica Tipo Productos{% endblock %}
+
+{% block page %}
+
+{% load static %}
+
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <h5>Modifica de tipo productos</h5>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 text-end">
+                    <a href="{% url 'tipo_productos' %}" class="btn btn-outline-primary"><i
+                            class="fa-solid fa-rotate-left"></i> Regresar</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="card-body">
+            <form action="{% url 'guarda_mod_tipo_prod' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="id_tipo_prod" class="form-label fw-bold">ID Tipo del Producto</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+                                <input type="text" class="form-control" value="{{ mod_tipo_prod.id_tipo_prod }}" name="id_tipo_prod" id="id_tipo_prod" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="uuid_tipo_prod" class="form-label fw-bold">UUID Tipo del Producto</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fa-solid fa-user-lock"></i></span>
+                                <input type="text" class="form-control" value="{{ mod_tipo_prod.uuid_tipo_prod }}" name="uuid_tipo_prod" id="uuid_tipo_prod" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="tipo_prod" class="form-label fw-bold">Tipo del Producto</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fa-solid fa-shirt"></i></span>
+                                <input type="text" class="form-control" value="{{ mod_tipo_prod.tipo }}" name="tipo_prod" id="tipo_prod" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="talla" class="form-label fw-bold">Talla</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fa-solid fa-file-lines"></i></span>
+                                <input type="text" class="form-control" name="talla" id="talla" value="{{ mod_tipo_prod.talla }}" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="color" class="form-label fw-bold">Color</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fa-solid fa-money-bill-1-wave"></i></span>
+                                <input type="text" class="form-control" value="{{ mod_tipo_prod.color }}" name="color" id="color" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="cod_color" class="form-label fw-bold">Codigo Color</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-list-check"></i></span>
+                                <input type="text" name="cod_color" id="cod_color" value="{{ mod_tipo_prod.codigo_color }}" class="form-control" maxlength="7" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-outline-success"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+            </form> 
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'js/catalogos/tipo_prod/tipo_prod.js' %}"></script>
+{% endblock %}

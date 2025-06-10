@@ -1,0 +1,82 @@
+<div class="row">
+    <div class="col-lg-12">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="tallas" class="form-label fw-bold"> <i class="fa-solid fa-ruler-combined"></i> Tallas
+                Producto</label>
+            <div class="input-group mb-3">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="talla_radio" id="vestimenta" value="v" checked>
+                    <label class="form-check-label" for="vestimenta">Vestimenta</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="talla_radio" id="calzado" value="r">
+                    <label class="form-check-label" for="calzado">Calzado</label>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                {% for t in tallas %}
+                    {% if t.talla|slice:"0:1" == 'N' %}
+                        <div class="calzado" hidden>
+                            <div class="form-check form-check-inline div_check">
+                                <input class="form-check-input check_talla" type="checkbox" name="talla" id="{{ t.id_talla }}" value="{{ t.id_talla }}" {% if t.check %}checked disabled {% endif %}>
+                                <label class="form-check-label check_label" for="{{ t.id_talla }}">{{ t.talla }}</label>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="vestimenta">
+                            <div class="form-check form-check-inline div_check">
+                                <input class="form-check-input check_talla" type="checkbox" name="talla" id="{{ t.id_talla }}" value="{{ t.id_talla }}" {% if t.check|yesno:"1,0" == "1" %}checked disabled {% endif %}>
+                                <label class="form-check-label check_label" for="{{ t.id_talla }}">{{ t.talla }}</label>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12 text-end py-4">
+        <button class="btn btn-outline-primary" id="add_modal_talla">Agregar Talla</button>
+    </div>
+    <div class="col-lg-12">
+        <table class="table table-bordered border-success">
+            <thead>
+                <tr>
+                    <th hidden>ID Detalle</th>
+                    <th hidden>UUID Detalle</th>
+                    <th hidden>ID Producto</th>
+                    <th hidden>UUID Producto</th>
+                    <th hidden>ID Seccion</th>
+                    <th hidden>ID Tipo</th>
+                    <th hidden>ID Color</th>
+                    <th>Codigo</th>
+                    <th>Producto</th>
+                    <th>Talla</th>
+                    <th>Codigo Talla</th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody class="datos_talla">
+                {% for t in tallas_con %}
+                <tr>
+                    <td hidden>{{ t.id_detalle }}</td>
+                    <td hidden>{{ t.uuid_detalle }}</td>
+                    <td hidden>{{ t.fk_productos_id }}</td>
+                    <td hidden>{{ t.uuid_producto }}</td>
+                    <td hidden>{{ t.fk_seccion_id }}</td>
+                    <td hidden>{{ t.fk_tipo_id }}</td>
+                    <td hidden>{{ t.fk_color_id }}</td>
+                    <td>{{ t.codigo }}</td>
+                    <td>{{ t.nombre }}</td>
+                    <td>{{ t.talla }}</td>
+                    <td>{{ t.cod_talla }}</td>
+                    <td>
+                        <input type="text" name="id_detalle" id="id_detalle" value="{{ t.id_detalle }}" hidden>
+                        <button class="btn btn-outline-danger eli_talla">Eliminar</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

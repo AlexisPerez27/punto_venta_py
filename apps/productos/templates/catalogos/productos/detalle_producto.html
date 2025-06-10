@@ -1,0 +1,27 @@
+{% for dp in det_prod %}
+    <tr>
+        <td hidden>{{ dp.id_producto }}</td>
+        <td>{{ dp.codigo }}</td>
+        <td>{{ dp.nombre }}</td>
+        <td>{{ dp.descripcion }}</td>
+        <td>{{ dp.precio }}</td>
+        <td hidden>{{ dp.id_seccion }}</td>
+        <td>
+            {{ dp.seccion }}
+            <span title="modificar" class="link-info mod_seccion"><i class="fa-solid fa-pen-to-square"></i></span>
+        </td>
+        <td hidden>{{ dp.id_tipo }}</td>
+        <td>
+            {{ dp.tipo }}
+            <span title="modificar" class="link-info mod_tipo"><i class="fa-solid fa-pen-to-square"></i></span>
+        </td>
+        <td hidden>{{ dp.id_color }}</td>
+        <td>
+            {{ dp.color }}
+            <span title="modificar" class="link-info mod_color"><i class="fa-solid fa-pen-to-square"></i></span>
+        </td>
+        <td><button class="btn btn-primary fw-bold ver_tallas border-0">Tallas</button></td>
+        <td><button class="btn btn-success fw-bold var_images border-0">Imagenes</button></td>
+        <td><button class="btn btn-outline-danger eli_prod_mod"><i class="fa-solid fa-trash-can"></i> Eliminar</button></td>
+    </tr>
+{% endfor %}

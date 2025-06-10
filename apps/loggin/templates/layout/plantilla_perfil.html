@@ -1,0 +1,118 @@
+{% if request.session.usu_usuario is Null %}
+<meta http-equiv="refresh" content="0.1; URL=/" />
+{% endif %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil</title>
+    <!-- <title>{% block titulo %}{% endblock %}</title> -->
+    <link rel="stylesheet" href="{% static '/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static '/fontawesome/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static '/select2/select2-bootstrap-5-theme.min.css' %}">
+    <link rel="stylesheet" href="{% static '/select2/select2-bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static '/select2/select2.min.css' %}">
+</head>
+
+<body>
+
+    <style>
+        .link1 {
+            text-decoration: none;
+        }
+
+        .border1:hover {
+            border: solid 5px rgba(0, 153, 255, 0.5);
+        }
+
+        .vertical-line {
+            border-left: 1px solid #000;
+            height: 500px
+        }
+    </style>
+
+    <nav class="navbar navbar-expand-lg bg-body shadow fixed-top" id="navbar-example2">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">PV</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Inicio</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav" style="margin-right: 60px;">
+                    <li class="nav-item px-2">
+                        <a href="#" type="button" class="btn position-relative">
+                            <i class="fa-solid fa-cart-shopping fa-xl"></i>
+                            <!-- <span QUITAR CUANDO YA SE TENGA UN CONTEO DE ORDENES
+                                class="position-absolute top-0 start-10 translate-middle badge rounded-pill bg-danger">
+                                &nbsp;
+                                <span class="visually-hidden">unread messages</span>
+                            </span> -->
+                        </a>
+                    </li>
+                    {% if request.session.usu_usuario %}
+                    <li class="nav-item px-2 py-2 dropdown me-lg-auto">
+                        <a class="link1 text-black dropdown-toggle" href="#"
+                            data-bs-toggle="dropdown">{{request.session.usu_usuario }}</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'perfil' %}">Perfil</a></li>
+                            <!-- <li><a class="dropdown-item" href="#"></a></li> -->
+                            {% if request.session.usu_permisos == 2 %}
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="{% url 'administrador' %}">Administracion</a></li>
+                            {% endif %}
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="{% url 'cerrar_sesion' %}">Cerrar Sesion</a></li>
+                        </ul>
+                    </li>
+                    {% else %}
+                    <li class="nav-item px-2 py-2">
+                        <a class="link1 text-black " href="{% url 'iniciar_sesion' %}">
+                            <i class="fa-solid fa-right-to-bracket"></i>&nbsp;Iniciar Sesion
+                        </a>
+                    </li>
+                    {% endif %}
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <main class="container py-lg-5">
+        <div class="row py-5">
+            <div class="card">
+                <div class="card-body">
+                    {% block body %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+
+    <script src="{% static 'jquery-3.7.1.min.js' %}"></script>
+    <!-- <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script> -->
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.js' %}"></script>
+    <script src="{% static 'select2/select2.min.js' %}"></script>
+    <script src="{% static 'sweetalert/sweetalert2@11.js' %}"></script>
+
+    {% block scripts %}{% endblock %}
+
+</body>
+
+</html>

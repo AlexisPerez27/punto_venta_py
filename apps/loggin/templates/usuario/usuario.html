@@ -1,0 +1,111 @@
+{% extends 'layout/plantilla_perfil.html' %}
+
+{% block titulo %} Editar Perfil {% endblock %}
+
+{% block body %}
+
+{% load static %}
+
+
+<form action="{% url 'guarda_edit_usuario' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row">
+
+        <div class="col-sm-6 col-md-4 col-lg-4 form-group">
+            <label for="exampleFormControlInput1" class="form-label"> <b>ID</b></label>
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa-solid fa-arrow-down-1-9"></i></span>
+                <input type="text" class="form-control" aria-label="ID" name="id_sesion" id="id_sesion" value="{{ sesion.id_sesion }}">
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-4 col-lg-4 form-group">
+            <label for="exampleFormControlInput1" class="form-label"> <b>UUID</b></label>
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa-solid fa-arrow-down-1-9"></i></span>
+                <input type="text" class="form-control" aria-label="UUID" name="uuid_sesion" id="uuid_sesion" value="{{ sesion.uuid_sesion }}">
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-4 col-lg-4 form-group">
+            <label for="exampleFormControlInput1" class="form-label"> <b>Correo</b></label>
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
+                <input type="text" class="form-control" aria-label="Correo" name="correo" id="correo" value="{{ sesion.correo }}">
+            </div>
+            <span id="span_correo" class="text-danger fw-bold"></span>
+        </div>
+
+        <div class="col-sm-6 col-md-4 col-lg-4 form-group">
+            <label for="exampleFormControlInput1" class="form-label"> <b>Usuario</b></label>
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+                <input type="text" class="form-control" aria-label="Usuario" name="usuario" id="usuario" value="{{ sesion.usuario_sesion }}">
+            </div>
+            <span id="span_usuario" class="text-danger fw-bold"></span>
+        </div>
+
+        <div class="col-sm-6 col-md-4 col-lg-4 form-group">
+            <label for="exampleFormControlInput1" class="form-label"> <b>¿Deseas cambiar contraseña?</b></label>
+            <div class="input-group mb-3">
+                <div class="input-group-text">
+                    <input class="form-check-input mt-0" type="checkbox" id="cambia_contra" name="cambia_contra">
+                </div>
+                <input type="text" value="SI" class="form-control" aria-label="Text input with checkbox" readonly>
+            </div>
+
+        </div>
+
+        <div class="col-sm-6 col-md-4 col-lg-4 form-group">
+            <label for="exampleFormControlInput1" class="form-label"> <b>Nueva contraseña</b></label>
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa-solid fa-key"></i></span>
+                <input type="password" class="form-control" aria-label="Nueva Contraseña" name="nueva_contra"  id="nueva_contra" readonly>
+                <div class="popover_title popper-content d-none">Parametros de contraseña.</div>
+                <div class="popover popper-content d-none">
+                    <li> Mayor a 8 caracteres.</li>
+                    <li> Debe contener 1 letra mayúscula.</li>
+                    <li> Debe contener 1 número.</li>
+                </div>
+            </div>
+            <span id="span_pass" class="text-danger fw-bold"></span>            
+        </div>
+
+        <div class="col-sm-6 col-md-4 col-lg-4 form-group">
+            <label for="exampleFormControlInput1" class="form-label"> <b>Confirmar contraseña</b></label>
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa-solid fa-key"></i></span>
+                <input type="password" class="form-control" aria-label="Confirma contraseña" name="confirm_new_contra"  id="confirm_new_contra" readonly>
+                <div class="popover_title popper-content d-none">Parametros de contraseña.</div>
+                <div class="popover-confirm popper-content d-none">
+                    <li> Las contraseñas deben coincidir.</li>
+                    <li> Mayor a 8 caracteres.</li>
+                    <li> Debe contener 1 letra mayúscula.</li>
+                    <li> Debe contener 1 número.</li>
+                </div>
+            </div>
+            <span id="span_pass_confirm" class="text-danger fw-bold"></span>
+            
+        </div>
+
+        <div class="col-12">
+            <div class="container text-center">
+                <div class="row align-items-end">
+                    <div class="col text-start">
+                        <a href="{% url 'perfil' %}" class="link-succes fw-blod"><b>Regresar</b></a>
+                    </div>
+                    <div class="col text-end">
+                        <button type="submit" class="btn btn-outline-primary">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+{% block scripts %}
+<script src="{% static 'js/perfil/usuario.js' %}"></script>
+{% endblock %}
+
+{% endblock %}

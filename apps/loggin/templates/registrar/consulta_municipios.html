@@ -1,0 +1,16 @@
+<label class="form-label" for="muni" style="font-size: 20px">
+    <i class="fa-solid fa-flag"></i>&nbsp;Ciudad/municipio
+</label>
+<div class="input-group">
+    <select name="municipio_select" id="municipio_select" class="form-select form-select-lg">
+        <option value="0">Seleccionar</option>
+        {% for municipio in municipios_con %}
+            <option value="{{ municipio.id_municipios }}">{{ municipio.municipios }}</option>
+        {% endfor %}
+    </select>
+    <button type="button" class="btn btn-primary" title="Agregar Municipio" data-bs-toggle="modal"
+        data-bs-target="#municipio_modal_examp">
+        <i class="fa-solid fa-circle-plus"></i>
+    </button>
+</div>
+<span class="text-danger fw-bold" id="span_municipios"></span>

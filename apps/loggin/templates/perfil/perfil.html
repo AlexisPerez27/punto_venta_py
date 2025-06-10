@@ -1,0 +1,122 @@
+{% extends 'layout/plantilla_perfil.html' %}
+
+{% block titulo %} Perfil {% endblock %}
+
+{% block body %}
+
+{% load static %}
+
+<div class="row">
+    <div class="col-4">
+        <div class="list-group" id="list-tab" role="tablist">
+            <a class="list-group-item list-group-item-action active" id="list-perfil-list" data-bs-toggle="list"
+                href="#list-perfil" role="tab" aria-controls="list-perfil">
+                Perfil
+            </a>
+            <a class="list-group-item list-group-item-action" id="list-config-list" data-bs-toggle="list"
+                href="#list-config" role="tab" aria-controls="list-config">
+                Configuracion
+            </a>
+        </div>
+    </div>
+    <div class="col-8">
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="list-perfil" role="tabpanel" aria-labelledby="list-perfil-list">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <h1>Perfil de {{ request.session.usu_usuario }}</h1>
+                        </div>
+                        <hr>
+                        <div class="col-lg-12 align-items-center text-center">
+                            <!-- <span class="">Nombre del usuario: {{ usuario.usuario_sesion }}</span> -->
+                            <p><img src="{{ usuario.fk_usuario.foto.url }}" alt="" width="25%"></p>
+                        </div>
+                        <br>
+                        <div class="col-4 text-end">
+                            <span>Nombre Usuario</span>
+                            <hr>
+                            <span>Nombre completo</span>
+                            <hr>
+                            <span>Correo</span>
+                            <hr>
+                            <span>Fecha Nacimiento</span>
+                            <hr>
+                            <span>Telefono</span>
+                            <hr>
+                            <span>Sexo</span>
+                            <hr>
+                        </div>
+
+                        <div class="col-8 text-center">
+                            <span>{{ request.session.usu_usuario }}</span>
+                            <hr>
+                            <span>{{ usuario.fk_usuario.nombre }} {{ usuario.fk_usuario.apellidos }}</span>
+                            <hr>
+                            <span>{{ usuario.correo }}</span>
+                            <hr>
+                            <span>{{ usuario.fk_usuario.fecha_nac }}</span>
+                            <hr>
+                            <span>{{ usuario.fk_usuario.telefono }}</span>
+                            <hr>
+                            {% if usuario.fk_usuario.sexo == 'M' %}
+                            <span>Masculino</span>
+                            {% elif usuario.fk_usuario.sexo == 'F' %}
+                            <span>Femenino</span>
+                            {% else %}
+                            <span>No especificado</span>
+                            {% endif %}
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="list-config" role="tabpanel" aria-labelledby="list-config-list">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <h1>Configuraciones</h1>
+                        </div>
+                        <hr>
+                        <div class="col-lg-12 align-items-center text-center">
+                            <p><img src="{{ usuario.fk_usuario.foto.url }}" alt="" width="25%"></p>
+                        </div>
+                        <br>
+                        <div class="col-4 text-end">
+                            <span>Datos Generales</span>
+                            <hr>
+                            <span>Datos de sesion</span>
+                            <hr>
+                            {% if request.session.usu_permisos == 1 %}
+                            <span>Solicitud de Administrador</span>
+                            {% elif request.session.usu_permisos == 2 %}
+                            <span>Entrar al Administrador</span>
+                            {% endif %}
+                            <hr>
+                            <span>Eliminar Cuenta</span>
+                            <hr>
+                        </div>
+
+                        <div class="col-8 text-start">
+                            <span><a href="../editar_perfil/{{ usuario.fk_usuario.uuid_usu }}" class="link-dark"><i class="fa-solid fa-pen-to-square"></i> Ediar</a></span>
+                            <hr>
+                            <span><a href="../editar_usuario/{{ usuario.fk_usuario.uuid_usu }}"  class="link-dark"><i class="fa-solid fa-pen-to-square"></i> Ediar</a></span>
+                            <hr>
+                            {% if request.session.usu_permisos == 1 %}
+                            <span><a href="../../administrador/solicita"  class="link-primary"><i class="fa-solid fa-file-import"></i> Solicitar</a></span>
+                            <hr>
+                            {% elif request.session.usu_permisos == 2 %}
+                            <span><a href="../administrador/"  class="link-info"><i class="fa-solid fa-file-import"></i> Administracion</a></span>
+                            <hr>
+                            {% endif %}
+                            <span><a href="#"  class="link-danger"><i class="fa-solid fa-trash-can"></i> Eliminar</a></span>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

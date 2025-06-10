@@ -1,0 +1,31 @@
+<!-- estado input -->
+<div class="form-outline mb-4">
+    <label class="form-label" for="estado_api" style="font-size: 20px">
+        <i class="fa-solid fa-map-location-dot"></i>&nbsp;Estado
+    </label>
+    <input type="text" id="estado_api" name="estado_api" class="form-control form-control-lg" value="{{ cp.estado }}" readonly/>                          
+</div>
+
+
+<div class="form-outline mb-4">
+    <label class="form-label" for="muni_api" style="font-size: 20px">
+        <i class="fa-solid fa-flag"></i>&nbsp;Ciudad/municipio
+    </label>
+    <input type="text" id="muni_api" name="muni_api" class="form-control form-control-lg" value="{{ cp.municipio }}" readonly/>                              
+</div>
+
+
+
+ <!-- colonias input -->
+ <div class="form-outline mb-4">
+    <label class="form-label" for="colonias_api" style="font-size: 20px">
+        <i class="fa-solid fa-signs-post"></i>&nbsp;Colonias
+    </label>
+    <select name="colonias_select_api" id="colonias_select_api" class="form-select form-select-lg">
+        <option value="0">Seleccionar</option>
+        {% for col in cp.colonias %}
+            <option value="{{ col }}">{{ col}}</option>
+        {% endfor %}
+    </select>
+    <span class="text-danger fw-bold" id="span_colonias"></span>                 
+</div>

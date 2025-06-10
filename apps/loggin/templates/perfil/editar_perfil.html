@@ -1,0 +1,338 @@
+{% extends 'layout/plantilla_perfil.html' %}
+
+{% block titulo %} Editar Perfil {% endblock %}
+
+{% block body %}
+
+{% load static %}
+
+
+<form action="{% url 'guarda_editar_perfil' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row">
+
+        <div class="col-sm-6 col-md-4 col-lg-4 form-group" hidden>
+            <label for="exampleFormControlInput1" class="form-label"> <b>ID</b></label>
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa-solid fa-arrow-down-1-9"></i></span>
+                <input type="text" class="form-control" aria-label="ID" name="id_usu" id="id_usu" value="{{ usuario.id_usuarios }}">
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-4 col-lg-4 form-group" hidden>
+            <label for="exampleFormControlInput1" class="form-label"> <b>UUID</b></label>
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa-solid fa-arrow-down-1-9"></i></span>
+                <input type="text" class="form-control" aria-label="UUID" name="uuid_usu" id="uuid_usu" value="{{ usuario.uuid_usu }}">
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-4 col-lg-4 form-group">
+            <label for="exampleFormControlInput1" class="form-label"><b>Nombre</b></label>
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+                <input type="text" class="form-control" aria-label="Nombre" name="nombre" id="nombre" value="{{ usuario.nombre }}">
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-4 col-lg-4 form-group">
+            <label for="exampleFormControlInput1" class="form-label"><b>Apellidos</b></label>
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+                <input type="text" class="form-control" name="apellidos" id="apellidos" aria-label="Apellidos" value="{{ usuario.apellidos }}">
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-4 col-lg-4 form-group">
+            <label for="exampleFormControlInput1" class="form-label"><b>Fecha Nacimiento</b></label>
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i></span>
+                <input type="date" class="form-control" aria-label="Fecha Nacimiento" name="fecha_nac" id="fecha_nac" value="{{ usuario.fecha_nac| date:'Y-m-d' }}">
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-4 col-lg-4 form-group">
+            <label for="exampleFormControlInput1" class="form-label"><b>Telefono</b></label>
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa-solid fa-square-phone-flip"></i></span>
+                <input type="text" class="form-control" aria-label="Telefono" name="tel" id="tel" maxlength="10" value="{{ usuario.telefono }}">
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-4 col-lg-4 form-group">
+            <label for="exampleFormControlInput1" class="form-label"><b>Genero</b></label>
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa-solid fa-transgender"></i></span>
+                <select name="genero" id="genero" class="form-select">
+                    <option value="0">Seleccionar</option>
+                    <option value="M" {% if usuario.sexo == 'M' %} selected {% endif %}>Masculino</option>
+                    <option value="F" {% if usuario.sexo == 'F' %} selected {% endif %}>Femenino</option>
+                    <option value="N" {% if usuario.sexo == 'N' %} selected {% endif %}>No especificar</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-4 col-lg-4 form-group">
+            <label for="exampleFormControlInput1" class="form-label"><b>Estado Civil</b></label>
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa-solid fa-person-military-to-person"></i></span>
+                <select name="civil" id="civil" class="form-select">
+                    <option value="0">Seleccionar</option>
+                    <option value="soltero" {% if usuario.estado_civil == 'soltero' %} selected {% endif %}>Soltero</option>
+                    <option value="casado" {% if usuario.estado_civil == 'casado' %} selected {% endif %}>Casado</option>
+                    <option value="union_libre" {% if usuario.estado_civil == 'union_libre' %} selected {% endif %}>Union Libre</option>
+                    <option value="viudo" {% if usuario.estado_civil == 'viudo' %} selected {% endif %}>Viudo(a)</option>
+                    <option value="sin_espec" {% if usuario.estado_civil == 'sin_espec' %} selected {% endif %}>No especificar</option>
+                </select>
+            </div>
+        </div>
+
+        
+            <div class="col-sm-6 col-md-4 col-lg-4 form-group">
+                <label for="exampleFormControlInput1" class="form-label"><b>Pais</b></label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="fa-solid fa-earth-americas"></i></span>
+                    <select name="pais" id="pais" class="form-select form-control-lg pais"
+                        data-placeholder="Choose one thing" required>
+                        <option value="0">Seleccionar</option>               
+                        {% for pais in paises %}
+                            {% if pais.id_pais != 108 %}
+                                {% for pais_select in pais_select %}
+                                    {% if pais.pais == pais_select.pais %}
+                                        <option value="{{ pais.id_pais }}" selected>{{ pais.pais }}</option>
+                                    {% else %}
+                                        <option value="{{ pais.id_pais }}">{{ pais.pais }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                <option value="{{ pais.id_pais }}" selected>{{ pais.pais }}</option>
+                            {% endif %}
+                                {% if pais.id_pais != 108%}
+                                <option value="{{ pais.id_pais }}">{{ pais.pais }}</option>
+                                {% endif %}
+                        {% endfor %}
+                    </select>
+                    <span class="text-danger fw-bold" id="span_pais"></span>
+                </div>
+            </div>
+
+            <!-- ciudad input -->
+            <div class="col-sm-6 col-md-4 col-lg-4 form-group" id="div_cp_api" {% if  usuario.fk_municipios != 0 %} hidden {% endif %}>
+                <label for="exampleFormControlInput1" class="form-label"><b>Codigo Postal</b></label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="fa-solid fa-location-dot"></i></span>
+                    <input type="text" id="cod_postal" name="cod_postal" class="form-control"
+                    placeholder="Codigo Postal" maxlength="5" value="{{ usuario.fk_cod_postal }}"/>
+                    <span class="text-danger fw-bold" id="span_postal"></span>
+                </div>
+            </div>
+    
+            <div class="col-sm-6 col-md-4 col-lg-4 form-group cp_api" id="div_estado_api" {% if usuario.fk_municipios != 0 %} hidden {% endif %}>
+                <label for="exampleFormControlInput1" class="form-label"><b>Estado</b></label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="fa-solid fa-map-location-dot"></i></span>
+                    <input type="text" id="estado_api" name="estado_api" class="form-control" value="{{ cod_pos.estado_api }}" readonly/>
+                </div>
+            </div>
+    
+            <div class="col-sm-6 col-md-4 col-lg-4 form-group cp_api" id="div_mun_api" {% if usuario.fk_municipios != 0 %} hidden {% endif %}>
+                <label for="exampleFormControlInput1" class="form-label"><b>Ciudad/municipio</b></label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="fa-solid fa-flag"></i></span>
+                    <input type="text" id="muni_api" name="muni_api" class="form-control" value="{{ cod_pos.municipio_api }}" readonly/>
+                </div>
+            </div>
+    
+            <div class="col-sm-6 col-md-4 col-lg-4 form-group cp_api" id="div_colonia_api" {% if usuario.fk_municipios != 0 %} hidden {% endif %}>
+                <label for="exampleFormControlInput1" class="form-label"><b>Colonias</b></label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="fa-solid fa-signs-post"></i></span>
+                    <select name="colonias_select_api" id="colonias_select_api" class="form-select">
+                        <option value="0">Seleccionar</option>
+                        {% for col in datos_cp_api.colonias %}
+                            {% if cod_pos.colonia_api == col %}
+                                <option value="{{ col }}" selected>{{ col }}</option>
+                            {% else %}
+                                <option value="{{ col }}">{{ col }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <span class="text-danger fw-bold" id="span_colonias"></span>      
+                </div>
+            </div>
+
+            <div id="datos_api" hidden></div>
+            <div id="sin_api" hidden></div>
+       
+            
+            <!-- <div class="col-sm-6 col-md-4 col-lg-4 form-group">
+                <label for="exampleFormControlInput1" class="form-label"><b>Pais</b></label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="fa-solid fa-earth-americas"></i></span>
+                    <select name="pais" id="pais" class="form-select form-control-lg pais"
+                        data-placeholder="Choose one thing" required>
+                        <option value="0">Seleccionar</option>                        
+                        {% for pais in paises %}
+                            {% for pais_sel in pais_select %}
+                                {% if pais_sel.id_pais == pais.id_pais %}
+                                    <option value="{{ pais.id_pais }}" selected>{{ pais.pais }}</option>
+                                {% else %}
+                                    <option value="{{ pais.id_pais }}">{{ pais.pais }}</option>
+                                {% endif %}
+                            {% endfor %}                            
+                        {% endfor %}
+                    </select>
+                    <span class="text-danger fw-bold" id="span_pais"></span>
+                </div>
+            </div> -->
+
+
+            <!-- estado input -->
+            <div class="col-sm-6 col-md-4 col-lg-4 form-group" id="div_estado" {% if usuario.fk_municipios == 0 %} hidden {% endif %}>
+                <label for="exampleFormControlInput1" class="form-label"><b>Estado</b></label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="fa-solid fa-map-location-dot"></i></span>
+                    <select name="estado_select" id="estado_select" class="form-select">
+                        <option value="0">Seleccionar</option>
+                        {% for estate in res_estados %}
+                            {% for pais_sel in pais_select %}
+                                {% if pais_sel.id_estados == estate.id_estados %}
+                                    <option value="{{ estate.id_estados }}" selected>{{ estate.estados }}</option>
+                                {% else %}
+                                    <option value="{{ estate.id_estados }}">{{ estate.estados }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                    </select>
+                    <button type="button" class="btn btn-primary" title="Agregar Estado" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal">
+                        <i class="fa-solid fa-circle-plus"></i>
+                    </button>
+                </div>
+                <span class="text-danger fw-bold" id="span_estados"></span>
+            </div>
+
+            <!-- Modal Registra estado input -->
+            <div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Agregar Estado</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <label class="form-label" for="estado" style="font-size: 20px">
+                                <i class="fa-solid fa-map-location-dot"></i>&nbsp;Estado
+                            </label>
+                            <input type="text" id="estado_mod" value="" name="estado_mod"
+                                class="form-control form-control-lg" placeholder="Estado" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary" id="guardar_mod_estado"
+                                data-bs-dismiss="modal">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ciudad input -->
+            <div class="col-sm-6 col-md-4 col-lg-4 form-group"  id="div_mun" {% if usuario.fk_municipios == 0 %} hidden {% endif %}>
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="muni">
+                        <b>&nbsp;Ciudad/municipio</b>
+                    </label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="fa-solid fa-flag"></i></span>
+                        <select name="municipio_select" id="municipio_select" class="form-select">
+                            <option value="0">Seleccionar</option>
+                            {% for municipio in res_municipios %}
+                                {% for pais_sel in pais_select %}
+                                    {% if pais_sel.id_municipios == municipio.id_municipios %}
+                                        <option value="{{ municipio.id_municipios }}" selected>{{ municipio.municipios }}</option>
+                                    {% else %}
+                                        <option value="{{ municipio.id_municipios }}">{{ municipio.municipios }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
+                        </select>
+                        <button type="button" class="btn btn-primary" title="Agregar Municipio" data-bs-toggle="modal"
+                            data-bs-target="#municipio_modal_examp">
+                            <i class="fa-solid fa-circle-plus"></i>
+                        </button>
+                    </div>
+                    <span class="text-danger fw-bold" id="span_municipios"></span>
+                </div>
+            </div>
+
+
+
+            <!-- Modal Registra municipio input -->
+            <div class="modal" id="municipio_modal_examp" tabindex="-1" aria-labelledby="municipio_modal_examp"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Agregar Municipio</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <label class="form-label" for="estado" style="font-size: 20px">
+                                <i class="fa-solid fa-flag"></i>&nbsp;Ciudad/municipio
+                            </label>
+                            <input type="text" id="muni_modal" value="" name="muni_modal"
+                                class="form-control form-control-lg" placeholder="Ciudad/Municipio" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary" id="guardar_mod_municipio"
+                                data-bs-dismiss="modal">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        
+
+
+        
+
+
+        <!-- ciudad input -->
+        <div class="col-sm-6 col-md-4 col-lg-4 form-group">
+            <div>
+                <img src="{{ usuario.foto.url }}" alt="" class="img-responsive" id="foto_img">
+            </div>
+            <div class="form-outline mb-4">
+                <label class="form-label" for="muni">
+                    <b>&nbsp;Seleccionar Foto</b>
+                </label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa-solid fa-flag"></i></span>
+                    <input type="file" name="foto" id="foto" class="form-control">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="container text-center">
+                <div class="row align-items-end">
+                    <div class="col text-start">
+                        <a href="{% url 'perfil' %}" class="link-succes fw-blod"><b>Regresar</b></a>
+                    </div>
+                    <div class="col text-end">
+                        <button type="submit" class="btn btn-outline-primary">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+{% block scripts %}
+<script src="{% static 'js/perfil/perfil.js' %}"></script>
+{% endblock %}
+
+{% endblock %}

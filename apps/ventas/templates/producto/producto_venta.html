@@ -1,0 +1,151 @@
+{% extends 'layout/plantilla_pv.html' %}
+
+{% block titulo %}Producto{% endblock %}
+
+{% block page %}
+
+{% load static %}
+
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-success alert-dismissible fade show" id="success-alert" role="alert">
+            <strong class="text-dark">{{ message }}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+{% endif %}
+
+
+<div class="album py-5 bg-body-tertiary border-black">
+    <div class="container">
+
+        <div class="container py-5">
+            <div class="card">
+                <div class="card-header">
+                    <div class="text-start py-0">
+                        <a href="{% url 'punto_venta' %}" class="btn btn-outline-danger" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .70rem;">
+                            <i class="fa-solid fa-rotate-left"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    {% csrf_token %}                   
+                    <div class="row">
+                        <div class="col-8 paleta_images">
+                            <input type="text" name="min_id_img" id="min_id_img" value="{{ min_id_img }}" hidden>
+                            <input type="text" name="max_id_img" id="max_id_img" value="{{ max_id_img }}" hidden>
+                            <div id="carouselExample" class="carousel slide">
+                                <div class="carousel-inner">
+                                    {% for img in img %}
+                                        <div class="carousel-item {% if forloop.first %} active {% endif %}" alt="{{ img.id_galeria }}">
+                                            <a href="{{ img.imagenes.url }}" target="_blank">
+                                                <img src="{{ img.imagenes.url }}" class="d-block w-100 img-fluid  container-img carrousel-img">
+                                            </a>                                            
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev" style="height: 80%;">
+                                    <span class="carousel-control-prev-icon bg-secondary bg-opacity-50 rounded-3" ></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next" style="height: 80%;">
+                                    <span class="carousel-control-next-icon bg-secondary bg-opacity-50 rounded-3"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
+                            <div class="text-center min-img">
+                                {% for im in img %}
+                                    <img src="{{ im.imagenes.url }}" class="d-block {% if forloop.first %} img-active {% endif %} prev-img" width="5%" alt="{{ im.id_galeria }}">                                 
+                                {% endfor %}
+                            </div>                                                            
+                        </div>
+
+                        <div class="col-4">                            
+                            <div class="nom_prod">
+                                <div>                                    
+                                    <span class="producto fw-bold">{{ prod.fk_productos.nombre }}</span>
+                                    <p class="text-primary text-small py-0 fst-italic" style="margin-bottom: 0px;">{{ prod.fk_productos.codigo }}</p>
+                                    <div class="row py-0">
+                                        <span class="col-6 text-success">Genero: {{ prod.fk_seccion.seccion }}</span>
+                                        <span class="col-6 text-success">Tipo Vestimenta: {{ prod.fk_tipo.tipo }}</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="py-3">
+                                    <span class="text-black fw-bold fs-5">PRECIO: ${{ prod.fk_productos.precio }}</span>
+                                </div>  
+                                <div>                                    
+                                    <p class="col-12 text-justify">{{ prod.fk_productos.descripcion }}</p>
+                                </div>
+                                <div class="row py-3">
+                                    <span class="col-6">ranking</span>
+                                    <span class="col-6"><a href="#" class="link-secondary fw-bold">Ver todas las opiniones</a></span>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="paleta_colores">
+                                <label for="exampleColorInput" class="form-label fs-5 fst-italic">Color: {{ prod.fk_color.color }}</label>
+                                <div class="colores">
+                                    <!-- <input type="color" class="form-control form-control-color border-4 rounded-circle" id="exampleColorInput" value="#563d7c" title="Nombre del color"> -->
+                                    {% for c in color %}    
+                                        {% if c.fk_color__color == prod.fk_color.color %}
+                                            <div class="color_prod form-control-color border-5 rounded-circle fs-6 active_color"
+                                            title="{{ c.fk_color__color }}" style="background-color: {{ c.fk_color__cod_color }};">
+                                                <input type="text" name="id_color_txt" id="id_color_txt" value="{{ c.fk_color__id_color }}" hidden>
+                                                <input type="text" name="id_prod_txt" id="id_prod_txt" value="{{ prod.fk_productos_id }}" hidden>
+                                            </div>
+                                        {% else %}
+                                            <div class="color_prod form-control-color border-5 rounded-circle fs-6"
+                                            title="{{ c.fk_color__color }}" style="background-color: {{ c.fk_color__cod_color }};">
+                                                <input type="text" name="id_color_txt" id="id_color_txt" value="{{ c.fk_color__id_color }}" hidden>
+                                                <input type="text" name="id_prod_txt" id="id_prod_txt" value="{{ prod.fk_productos_id }}" hidden>
+                                            </div>
+                                        {% endif %}                                       
+                                    {% endfor %}
+                                     
+                                </div>
+                            </div>
+                            <div class="paleta_tallas py-4">
+                                {% for t in tallas %}
+                                    {% for it in inv_tallas %}
+                                        {% if it.id_inv_tallas == t.id_detalle %}
+                                            {% if it.count_tallas > 0 %}
+                                                <div class="tallas ">
+                                                    {{ t.fk_talla.cod_talla }}
+                                                    <input type="text" value="{{ t.id_detalle }}" name="id_det_prod" id="id_det_prod" hidden>
+                                                </div>                                                
+                                            {% else %}
+                                                <div class="tallas-deactivate">
+                                                    {{ t.fk_talla.cod_talla }}
+                                                    <input type="text" value="{{ t.id_detalle }}" name="id_det_prod" id="id_det_prod" hidden>
+                                                </div>
+                                            {% endif %}                                            
+                                        {% endif %}                                        
+                                    {% endfor %}                                    
+                                {% endfor %}
+                            </div>
+                            <div class="carrito">
+                                <div class="form-group py-4">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <input type="number" name="cant" id="cant" min="1" step="1" max="50" class="form-control border-black fs-3" value="1"></div>
+                                        <div class="col-9">
+                                            <button class=" col-12 btn btn-outline-primary fs-3">Agregar al Carrito</button>
+                                        </div>
+                                    </div>                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'js/punto_venta/punto_venta_det.js' %}"></script>
+{% endblock %}

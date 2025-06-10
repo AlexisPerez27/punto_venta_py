@@ -1,0 +1,328 @@
+{% extends 'layout/plantilla.html' %}
+
+{% block titulo %} Inicio Sesion {% endblock %}
+
+{% block body %}
+
+{% load static %}
+
+<section class="vh-100">
+    <div class="container h-custom">
+
+        {# encabezado #}
+        <div class="center">
+            <h1 class="display-3">Registrate en <b>Punto de Venta Company&reg;</b></h1>
+            <!-- {# <p class="lead"><b>Conoce gente, haz amigos y sientete más cerca de ellos.</b></p> #} -->
+            <hr class="my-4">
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong class="text-dark">{{ message }}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+        </div>
+
+        <div class="bg-white shadow rounded">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+
+                {# imagen #}
+                <div class="col-md-9 col-lg-6 col-xl-5 px-lg-5">
+                    <img src="{% static '../media/fondos/img8.jpeg' %}" class="img-fluid" alt="Photo" width="100%" height="100%">
+                </div>
+
+                {# formulario #}
+                <div class="col-md-8 col-lg-6 col-xl-4 py-5 px-4">
+                    <form action="../alta_usuario/" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <br>
+
+                        <h2>Registrarse</h2>
+
+                        <!-- Nombre input -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="nombre" style="font-size: 20px">
+                                <i class="fa-solid fa-user"></i>&nbsp;Nombre
+                            </label>
+                            <input type="text" id="nombre" name="nombre" value="" class="form-control form-control-lg"
+                                placeholder="Nombre" required />
+
+                            <span class="text-danger fw-bold" id="span_nombre"></span>
+                        </div>
+
+                        <!-- Apellidos input -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="apellidos" style="font-size: 20px">
+                                <i class="fa-solid fa-user"></i>&nbsp;Apellidos
+                            </label>
+                            <input type="text" id="apellidos" name="apellidos" value=""
+                                class="form-control form-control-lg" placeholder="Apellidos" required/>
+                            
+                            <span class="text-danger fw-bold" id="span_apellidos"></span>
+                        </div>
+
+                        <!-- fecha input -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="fecha_nac" style="font-size: 20px">
+                                <i class="fa-solid fa-calendar-days"></i>&nbsp;Fecha de Nacimiento
+                            </label>
+                            <input type="date" id="fecha_nac" value="" name="fecha_nac"
+                                class="form-control form-control-lg" required/>
+
+                            <span class="text-danger fw-bold" id="span_fecha"></span>
+                        </div>
+
+                        <!-- telefono input -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="telefono" style="font-size: 20px">
+                                <i class="fa-solid fa-phone"></i>&nbsp;Telefono
+                            </label>
+                            <input type="text" id="telefono" value="" name="telefono"
+                                class="form-control form-control-lg" placeholder="Telefono"  maxlength="10" required/>
+
+                                <span class="text-danger fw-bold" id="span_tel"></span>
+                        </div>
+
+                        <!-- seco input -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="sexo" style="font-size: 20px">
+                                <i class="fa-solid fa-transgender"></i>&nbsp;Genero
+                            </label>
+                            <br>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="sexo" id="masculino" value="M" checked>
+                                <label class="form-check-label" for="masculino">Masculino</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="sexo" id="femenino" value="F">
+                                <label class="form-check-label" for="femenino">Femenino</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="sexo" id="no_espec" value="N">
+                                <label class="form-check-label" for="no_espec">No especificar</label>
+                            </div>
+                        </div>
+
+                        <!-- estado civil input -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="civil" style="font-size: 20px">
+                                <i class="fa-solid fa-scale-balanced"></i>&nbsp;Estado Civil
+                            </label>
+                            <select name="civil" id="civil" class="form-select form-control-lg" required>
+                                <option value="0">Seleccionar</option>
+                                <option value="soltero">Soltero</option>
+                                <option value="casado">Casado</option>
+                                <option value="union_libre">Union Libre</option>
+                                <option value="viudo">Viudo(a)</option>
+                                <option value="sin_espec">No especificar</option>
+                            </select>
+
+                            <span class="text-danger fw-bold" id="span_civil"></span>
+                        </div>
+
+                        <!-- pais input -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="pais" style="font-size: 20px">
+                                <i class="fa-solid fa-earth-americas"></i>&nbsp;Pais
+                            </label>
+                            <select name="pais" id="pais" class="form-select form-control-lg pais" data-placeholder="Choose one thing" required>
+                                <option value="0">Seleccionar</option>
+                                {% for pais in paises %}
+                                <option value="{{ pais.id_pais }}">{{ pais.pais }}</option>
+                                {% endfor %}
+                            </select>
+                            <span class="text-danger fw-bold" id="span_pais"></span>
+                        </div>
+
+                        <!-- ciudad input -->
+                        <div class="form-outline mb-4" id="div_cp" hidden>
+                            <label class="form-label" for="cod_postal" style="font-size: 20px">
+                                <i class="fa-solid fa-location-dot"></i>&nbsp;Codigo Postal
+                            </label>
+                            <input type="text" id="cod_postal" name="cod_postal" class="form-control form-control-lg" placeholder="Codigo Postal" maxlength="5" />
+                            <span class="text-danger fw-bold" id="span_postal"></span>
+                        </div>
+
+                        <div id="datos_api">
+                        </div>
+
+
+                        <!-- estado input -->
+                        <div class="form-outline mb-4" id="div_estado" hidden>
+                            <label class="form-label" for="estado" style="font-size: 20px">
+                                <i class="fa-solid fa-map-location-dot"></i>&nbsp;Estado
+                            </label>
+                            <div class="input-group">
+                                <select name="estado_select" id="estado_select" class="form-select form-select-lg">
+                                    <option value="0">Seleccionar</option>
+                                    {% for estado in estados %}
+                                        <option value="{{ estado.id_estados }}">{{ estado.estados }}</option>
+                                    {% endfor %}
+                                </select>
+                                <button type="button" class="btn btn-primary" title="Agregar Estado" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    <i class="fa-solid fa-circle-plus"></i>
+                                </button>
+                            </div>                            
+                        </div>
+
+                        <!-- Modal Registra estado input -->
+                        <div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">                            
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Agregar Estado</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <label class="form-label" for="estado" style="font-size: 20px">
+                                            <i class="fa-solid fa-map-location-dot"></i>&nbsp;Estado
+                                        </label>
+                                        <input type="text" id="estado_mod" value="" name="estado_mod" class="form-control form-control-lg"  placeholder="Estado" />                                        
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        <button type="button" class="btn btn-primary" id="guardar_mod_estado" data-bs-dismiss="modal">Guardar</button>
+                                    </div>  
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- ciudad input -->
+                        <div class="form-outline mb-4" id="div_mun" hidden>
+                            <label class="form-label" for="muni" style="font-size: 20px">
+                                <i class="fa-solid fa-flag"></i>&nbsp;Ciudad/municipio
+                            </label>
+                            <div class="input-group">
+                                <select name="municipio_select" id="municipio_select" class="form-select form-select-lg">
+                                    <option value="0">Seleccionar</option>
+                                </select>
+                                <button type="button" class="btn btn-primary" title="Agregar Municipio" data-bs-toggle="modal" data-bs-target="#municipio_modal_examp">
+                                    <i class="fa-solid fa-circle-plus"></i>
+                                </button>
+                            </div>                            
+                        </div>
+
+
+                         <!-- Modal Registra municipio input -->
+                         <div class="modal" id="municipio_modal_examp" tabindex="-1" aria-labelledby="municipio_modal_examp" aria-hidden="true">                            
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Agregar Municipio</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <label class="form-label" for="estado" style="font-size: 20px">
+                                            <i class="fa-solid fa-flag"></i>&nbsp;Ciudad/municipio
+                                        </label>
+                                        <input type="text" id="muni_modal" value="" name="muni_modal" class="form-control form-control-lg" placeholder="Ciudad/Municipio" />
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        <button type="button" class="btn btn-primary" id="guardar_mod_municipio" data-bs-dismiss="modal">Guardar</button>
+                                    </div>  
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Email input -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="correo" style="font-size: 20px">
+                                <i class="fa-solid fa-envelope"></i>&nbsp;Correo electronico
+                            </label>
+                            <input type="email" id="correo" name="correo" value="" class="form-control form-control-lg"
+                                placeholder="ejemplo@ejemplo.com" required/>
+                            
+                            <span class="text-danger fw-bold" id="span_correo"></span>
+                        </div>
+
+
+                        <!-- usuario input -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="usuario" style="font-size: 20px">
+                                <i class="fa-solid fa-user-tag"></i>&nbsp;Nombre de usuario
+                            </label>
+                            <input type="text" id="usuario" name="usuario" value="" class="form-control form-control-lg"
+                                placeholder="usuario" required/>
+
+                            <span class="text-danger fw-bold" id="span_usuario"></span>
+                        </div>
+
+                        <!-- Password input -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="pass" style="font-size: 20px">
+                                <i class="fa-solid fa-lock"></i>&nbsp;Contraseña
+                            </label>
+                            <input type="password" id="pass" name="pass" class="form-control form-control-lg"
+                                placeholder="*********" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus"
+                                data-bs-content="Disabled popover" required/>
+                            
+                                <span class="text-danger fw-bold" id="span_pass"></span>
+                            <div class="popover_title popper-content d-none">Parametros de contraseña.</div>
+                            <div class="popover popper-content d-none">
+                                <li> Mayor a 8 caracteres.</li>
+                                <li> Debe contener 1 letra mayúscula.</li>
+                                <li> Debe contener 1 número.</li>
+                            </div>
+
+                        </div>
+
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="pass_confirm" style="font-size: 20px">
+                                <i class="fa-solid fa-lock"></i>&nbsp;Confirmar Contraseña
+                            </label>
+                            <input type="password" id="pass_confirm" name="pass_confirm"
+                                class="form-control form-control-lg" placeholder="*********" tabindex="0"
+                                data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content="Disabled popover" required/>
+
+                                <span class="text-danger fw-bold" id="span_pass_confirm"></span>
+
+
+                            <div class="popover_title popper-content d-none">Parametros de contraseña.</div>
+                            <div class="popover popper-content d-none">
+                                <li> Mayor a 8 caracteres.</li>
+                                <li> Debe contener 1 letra mayúscula.</li>
+                                <li> Debe contener 1 número.</li>
+                            </div>
+                        </div>
+
+                        <!-- Foto perfil input -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="foto" style="font-size: 20px">
+                                <i class="fa-solid fa-image"></i>&nbsp;Foto de perfil
+                            </label>
+                            <input type="file" id="foto" name="foto" value="" class="form-control form-control-lg" />
+                        </div>
+
+
+                        <div class="text-center text-lg-start mt-4 pt-2">
+                            <p class="small fw-bold mt-2 pt-1 mb-0">
+                                ¿Ya tienes cuenta? <a href="/iniciar_sesion/" class="link-danger">Incia sesion aquí.</a>
+                            </p>
+
+                            <br>
+
+                            <button type="submit" class="btn btn-primary btn-lg"
+                                style="padding-left: 2.5rem; padding-right: 2.5rem;" id="registrarse">Registrarse</button>
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/loggin/loggin.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,141 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titulo %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static '/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static '/fontawesome/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static '/css/panel_pv.css' %}">
+</head>
+
+<style>
+    .link1 {
+        text-decoration: none;
+    }
+
+    .border1:hover {
+        border: solid 5px rgba(0, 153, 255, 0.5);
+    }
+</style>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-body shadow fixed-top" id="navbar-example2">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">PV</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Dropdown
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="buscar">
+                    <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar">
+                    <button class="btn btn-outline-success" type="button">Buscar</button>
+                </form>
+                <ul class="navbar-nav" style="margin-right: 60px;">
+                    <li class="nav-item px-2">
+                        <a href="#" type="button" class="btn position-relative">
+                            <i class="fa-solid fa-cart-shopping fa-xl"></i>
+                            <!-- <span QUITAR CUANDO YA SE TENGA UN CONTEO DE ORDENES
+                                class="position-absolute top-0 start-10 translate-middle badge rounded-pill bg-danger">
+                                &nbsp;
+                                <span class="visually-hidden">unread messages</span>
+                            </span> -->
+                        </a>
+                    </li>
+                    {% if request.session.usu_usuario %}
+                        <li class="nav-item px-2 py-2 dropdown me-lg-auto">
+                            <a class="link1 text-black dropdown-toggle" href="#" data-bs-toggle="dropdown">{{ request.session.usu_usuario }}</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'perfil' %}">Perfil</a></li>
+                                <!-- <li><a class="dropdown-item" href="#"></a></li> -->
+                                
+                                {% if request.session.usu_permisos == 2 %}
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="{% url 'administrador' %}">Administracion</a></li>
+                                {% endif %}
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="{% url 'cerrar_sesion' %}">Cerrar Sesion</a></li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li class="nav-item px-2 py-2">
+                            <a class="link1 text-black " href="{% url 'iniciar_sesion' %}"><i class="fa-solid fa-right-to-bracket"></i>&nbsp;Iniciar Sesion</a>
+                        </li>
+                    {% endif %}
+                                        
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container-fluid">
+        {% block page %}
+        {% endblock %}
+        
+    </main>
+
+
+
+
+    <div class="container">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+            <p class="col-md-4 mb-0 text-body-secondary">&copy; 2024 Company, Inc</p>
+
+            <a href="/"
+                class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+                <i class="fa-brands fa-bootstrap fa-2xl"></i>
+            </a>
+
+            <ul class="nav col-md-4 justify-content-end">
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
+            </ul>
+        </footer>
+    </div>
+
+    <script src="{% static 'jquery-3.7.1.min.js' %}"></script>
+    <!-- <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script> -->
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.js' %}"></script>
+    <script src="{% static 'sweetalert/sweetalert2@11.js' %}"></script>
+
+    {% block script %}{% endblock %}
+    
+</body>
+
+</html>

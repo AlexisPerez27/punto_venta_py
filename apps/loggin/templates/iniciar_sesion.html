@@ -1,0 +1,121 @@
+{% extends 'layout/plantilla.html' %}
+
+{% block titulo %} Inicio Sesion {% endblock %}
+
+{% block body %}
+
+{% load static %}
+<section class="vh-100">
+    <div class="container h-custom">
+
+        {# encabezado #}
+        <div class="center">
+            <h1 class="display-4">Hola! Bienvenido a <b>Punto de Venta Company&reg;</b></h1>
+            <p class="lead"><b>Conoce nuestros productos, mejor precio, promociones, ahorras mas</b></p>
+            <hr class="my-4">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong class="text-dark">{{ message }}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="bg-white shadow rounded">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+
+                {# imagen #}
+                <div class="col-md-9 col-lg-6 col-xl-5 py-5 px-4">
+                    <img src="{% static '../media/fondos/img9.jpg' %}" class="img-fluid" alt="Photo" width="100%" height="100%">
+                </div>
+
+                {# formulario #}
+                <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1 py-5 px-4">
+                    <form action="../loggin/inicio_sesion/" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <h2>Iniciar sesión</h2>
+
+                        <!-- Email input -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="correo_usu" style="font-size: 20px">
+                                <i class="fa-solid fa-envelope"></i>&nbsp;Correo electronico o Usuario
+                            </label>
+                            <input type="text" id="correo_usu" name="correo_usu" class="form-control form-control-lg" placeholder="ejemplo@ejemplo.com/ Usuario" required/>
+                        </div>
+
+                        <!-- Password input -->
+                        <div class="form-outline mb-3">
+                            <label class="form-label" for="pass" style="font-size: 20px">
+                                <i class="fa-solid fa-lock"></i>&nbsp;Contraseña
+                            </label>
+                            <input type="password" id="pass" name="pass" class="form-control form-control-lg" placeholder="*********" required/>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <!-- Checkbox -->
+                            <!-- <div class="form-check mb-0">
+                                    <input class="form-check-input me-2" type="checkbox" value=""
+                                        id="form2Example3" />
+                                    <label class="form-check-label" for="form2Example3">
+                                        Remember me
+                                    </label>
+                                </div> -->
+                            <span>¿Olvidaste tu contraseña?</span>
+                            <a href="#">Restablecer contraseña</a>
+                        </div>
+
+                        <div class="text-center text-lg-start mt-4 pt-2">
+                            <p class="small fw-bold mt-2 pt-1 mb-0">
+                                ¿No tienes cuenta? <a href="../loggin/registrar_usuario" class="link-danger">Registrarse aquí</a>
+                            </p>
+
+                            <br>
+                            <p class="small fw-bold mt-2 pt-1 mb-0">
+                                Regresar a <a href="{% url 'inicio' %}" class="link-primary">Pagina Principal</a>
+                            </p>
+
+                            <br>
+
+                            <button type="submit" class="btn btn-primary btn-lg"
+                                style="padding-left: 2.5rem; padding-right: 2.5rem;">Ingresar</button>
+
+                        </div>
+
+                        <div class="divider d-flex align-items-center my-4">
+                            <p class="text-center fw-bold mx-3 mb-0">O inicia sesion con</p>
+                        </div>
+
+                        <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
+                            <!-- {# <p class="lead fw-normal mb-0 me-3">Sign in with</p> #} -->
+                            <button type="button" class="btn btn-primary btn-floating mx-1">
+                                <i class="fa-brands fa-facebook"></i>
+                            </button>
+
+                            <button type="button" class="btn btn-primary btn-floating mx-1">
+                                <i class="fa-brands fa-x-twitter"></i>
+                            </button>
+
+                            <button type="button" class="btn btn-primary btn-floating mx-1">
+                                <i class="fa-brands fa-instagram"></i>
+                            </button>
+
+                            <button type="button" class="btn btn-primary btn-floating mx-1">
+                                <i class="fa-brands fa-google"></i>
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+                {# fin div formulario #}
+            </div>
+            {# fin div row #}
+        </div>
+        {# fin div bg-white #}
+    </div>
+    {# fin div container #}
+</section>
+{# fin section #}
+
+{% endblock %}

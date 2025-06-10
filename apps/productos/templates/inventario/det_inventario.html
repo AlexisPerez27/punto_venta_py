@@ -1,0 +1,152 @@
+{% if tipo == 1 %}
+    <div class="accordion py-0" id="accordionExample">
+            
+        {% for d in det %}
+            <div class="accordion-item">
+                <tr>
+                    <td>{{ d.codigo }}</td>
+                    <td>{{ d.nombre }}</td>
+                    <td>{{ d.seccion }}</td>
+                    <td>{{ d.tipo }}</td>
+                    <td>{{ d.color }}</td>
+                    <td>
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed boton_acordeon" type="button" data-bs-toggle="collapse" data-bs-target="#{{ d.id_color }}"
+                                aria-expanded="false" aria-controls="{{ d.id_color }}">
+                                <i id="icon_boton_acordeon" class="fa-solid fa-chevron-down"></i>
+                            </button> 
+                        </h2>                 
+                    </td>
+                </tr>
+
+                
+
+                <tr  id="{{ d.id_color }}" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <td colspan="6">
+                        <table class="table table-bordered border-primary border-opacity-50">
+                            <thead>
+                                <tr>
+                                    <th>ID Inventario</th>
+                                    <th>ID detalle</th>
+                                    <th>Color</th>
+                                    <th>Talla</th>                                
+                                    <th>Stock</th>
+                                    <th>Cantidad operacion</th>
+                                    <th>Cantidad a ingresar</th>
+                                </tr>
+                            </thead>
+                            <tbody class="datos_cantidad">
+                                {% for va in variable %}
+                                    {% for v in va %}
+
+                                        {% if v.id_color == d.id_color %}
+                                            <tr>
+                                                <td>{{ v.id_inventario }}</td>
+                                                <td>{{ v.id_detalle }}</td>
+                                                <td>{{ v.color }}</td>
+                                                <td>{{ v.talla }}</td>
+                                                <td>{{ v.stock }}</td>
+                                                <td>{{ v.cantidad }}</td>
+                                                <td>
+                                                    <div class="row col-lg-10 col-md-6 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label for="cantidad" class="form-label fw-bold">Cantidad Entrada</label>
+                                                            <div class="input-group mb-3">
+                                                                <span class="input-group-text"><i class="fa-solid fa-dolly"></i></span>
+                                                                <input type="number" class="form-control" placeholder="Nombre Producto" name="cantidad" id="cantidad"
+                                                                step="1" min="0" max="1000" value="0">
+                                                                <input type="text" name="tipo_inv" id="tipo_inv" value="2" hidden>
+                                                            </div>
+                                                            <span class="text-danger text-small fs-6">*La cantidad no debe sobre pasar las 1,000 unidades por pieza</span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endif %}
+                                        
+                                        
+                                    {% endfor %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </td>                    
+                </tr>
+            </div>
+        {% endfor %}
+    </div>
+
+
+{% else %}
+    
+
+    <div class="accordion py-0" id="accordionExample">
+        
+            {% for d in det %}
+                <div class="accordion-item">
+                    <tr>
+                        <td>{{ d.codigo }}</td>
+                        <td>{{ d.nombre }}</td>
+                        <td>{{ d.seccion }}</td>
+                        <td>{{ d.tipo }}</td>
+                        <td>{{ d.color }}</td>
+                        <td>
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed boton_acordeon" type="button" data-bs-toggle="collapse" data-bs-target="#{{ d.id_color }}"
+                                    aria-expanded="false" aria-controls="{{ d.id_color }}">
+                                    <i id="icon_boton_acordeon" class="fa-solid fa-chevron-down"></i>
+                                </button> 
+                            </h2>                 
+                        </td>
+                    </tr>
+
+                    
+
+                    <tr  id="{{ d.id_color }}" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                        <td colspan="6">
+                            <table class="table table-bordered border-primary border-opacity-50">
+                                <thead>
+                                    <tr>
+                                        <th>ID detalle</th>
+                                        <th>Color</th>
+                                        <th>Talla</th>
+                                        <th>Cantidad a ingresar</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="datos_cantidad">
+                                    {% for va in variable %}
+                                        {% for v in va %}
+
+                                            {% if v.id_color == d.id_color %}
+                                                <tr>
+                                                    <td>{{ v.id_detalle }}</td>
+                                                    <td>{{ v.color }}</td>
+                                                    <td>{{ v.talla }}</td>
+                                                    <td>
+                                                        <div class="row col-lg-10 col-md-6 col-sm-12">
+                                                            <div class="form-group">
+                                                                <label for="cantidad" class="form-label fw-bold">Cantidad Entrada</label>
+                                                                <div class="input-group mb-3">
+                                                                    <span class="input-group-text"><i class="fa-solid fa-dolly"></i></span>
+                                                                    <input type="number" class="form-control" placeholder="Nombre Producto" name="cantidad" id="cantidad" step="1" min="0" max="1000" value="0">
+                                                                    <input type="text" name="tipo_inv" id="tipo_inv" value="1" hidden>
+                                                                </div>
+                                                                <span class="text-danger text-small fs-6">*La cantidad no debe sobre pasar las 1,000 unidades por pieza</span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% endif %}
+                                            
+                                            
+                                        {% endfor %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </td>                    
+                    </tr>
+                </div>
+                
+            {% endfor %}
+    </div>
+
+{% endif %}

@@ -1,0 +1,216 @@
+{% extends 'layout/plantilla_administrador.html' %}
+
+{% block titulo %}Productos{% endblock %}
+
+{% block titulo_page %}Productos{% endblock %}
+
+{% block page %} 
+
+{% load static %}
+
+
+{% for p in producto %}
+
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <h5>Registar productos</h5>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 text-end">
+                    <a href="{% url 'productos' %}" class="btn btn-outline-primary"><i
+                            class="fa-solid fa-rotate-left"></i> Regresar</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="card-body">
+            <form action="{% url 'guarda_mod_prod' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="id_prod" class="form-label fw-bold">ID Detalle Producto</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fa-solid fa-xmarks-lines"></i></span>
+                                <input type="text" class="form-control" placeholder="Codigo Producto" name="id_det_prod" id="id_det_prod" value="{{ p.id_det_prod }}" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="id_prod" class="form-label fw-bold">ID Producto</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fa-solid fa-xmarks-lines"></i></span>
+                                <input type="text" class="form-control" placeholder="Codigo Producto" name="id_prod" id="id_prod" value="{{ p.id_producto }}" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="uuid_prod" class="form-label fw-bold">UUID Producto</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fa-solid fa-xmarks-lines"></i></span>
+                                <input type="text" class="form-control" placeholder="Codigo Producto" name="uuid_prod" id="uuid_prod" value="{{ p.uuid_producto }}" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="cod_producto" class="form-label fw-bold">Codigo del Producto</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fa-solid fa-xmarks-lines"></i></span>
+                                <input type="text" class="form-control" placeholder="Codigo Producto" name="cod_producto" id="cod_producto" value="{{ p.codigo }}" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="nombre" class="form-label fw-bold">Nombre del Producto</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fa-solid fa-shirt"></i></span>
+                                <input type="text" class="form-control" placeholder="Nombre Producto" name="nombre" id="nombre" value="{{ p.nombre }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="descripcion" class="form-label fw-bold">Descripcion</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fa-solid fa-file-lines"></i></span>
+                                <textarea class="form-control" name="descripcion" id="descripcion" cols="20" rows="1">{{ p.descripcion }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="precio" class="form-label fw-bold">Precio</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fa-solid fa-money-bill-1-wave"></i></span>
+                                <input type="number" class="form-control" placeholder="Precio" name="precio" id="precio" step=".01" min="0" value="{{ p.precio }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="seccion_prod" class="form-label fw-bold">Seccion Producto</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-list-check"></i></span>
+                                <select name="seccion_prod" id="seccion_prod" class="form-select">
+                                    <option value="0">Seleccionar</option>
+                                    {% for s in seccion %}
+                                        {% if s.id_seccion == p.id_seccion %}
+                                            <option value="{{ s.id_seccion }}" selected>{{ s.seccion }}</option>
+                                        {% else %}
+                                            <option value="{{ s.id_seccion }}">{{ s.seccion }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                                <button type="button" class="btn btn-primary" id="add_seccion_prod"><i class="fa-solid fa-square-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="tipo_prod" class="form-label fw-bold">Tipo Producto</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-list-check"></i></span>
+                                <select name="tipo_prod" id="tipo_prod" class="form-select">
+                                    <option value="0">Seleccionar</option>
+                                    {% for tp in tipo %}
+                                        {% if tp.tipo == p.tipo %}
+                                            <option value="{{ tp.tipo }}" selected>{{ tp.tipo }}</option>
+                                        {% else %}
+                                            <option value="{{ tp.tipo }}">{{ tp.tipo }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                                <button type="button" class="btn btn-primary" id="add_tipo_prod"><i class="fa-solid fa-square-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="color" class="form-label fw-bold">Color</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-list-check"></i></span>
+                                <select name="color_mod" id="color_mod" class="form-select">
+                                    <option value="0">Seleccionar</option>
+                                    {% for c in color %}
+                                        {% if c.color == p.color %}
+                                            <option value="{{ c.color }}" selected>{{ c.color }}</option>
+                                        {% else %}
+                                            <option value="{{ c.color }}">{{ c.color }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="talla" class="form-label fw-bold">Talla</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-list-check"></i></span>
+                                <select name="talla" id="talla" class="form-select">
+                                    <option value="0">Seleccionar</option>
+                                    {% for t in talla %}
+                                        {% if t.talla == p.talla %}
+                                            <option value="{{ t.id_tipo_prod }}" selected>{{ t.talla }}</option>
+                                        {% else %}
+                                            <option value="{{ t.id_tipo_prod }}">{{ t.talla }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>                    
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="color" class="form-label fw-bold">Agregar Imagenes</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-images"></i></span>
+                                <input type="file" name="images" id="images" class="form-control" multiple>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <h5>Lista de imagenes</h5>
+
+                <div class="row" id="galeria">
+                    {% for im in images %}
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <div class="form-group">                            
+                                <div class="text-end">
+                                    <input type="text" name="id_img" id="id_img" value="{{ im.id_galeria }}" hidden>
+                                    <button type="button" class="btn btn-danger elim_img">Eliminar</button>
+                                </div>
+                                <img src="{{ im.imagenes.url }}" alt="" class="img-fluid">
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <br><br>
+                <button type="submit" class="btn btn-outline-success"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+            </form> 
+        </div>
+    </div>
+</div>
+
+{% endfor %}
+
+
+<div id="div_modal_seccion"></div>
+<div id="div_modal_tipo"></div>
+
+
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'js/catalogos/productos/productos.js' %}"></script>
+{% endblock %}

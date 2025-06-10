@@ -1,0 +1,26 @@
+<div id="carouselExample" class="carousel slide">
+    <input type="text" name="min_id_img" id="min_id_img" value="{{ min_id_img }}" hidden>
+    <input type="text" name="max_id_img" id="max_id_img" value="{{ max_id_img }}" hidden>
+    <div class="carousel-inner">
+        {% for img in img %}
+            <div class="carousel-item {% if forloop.first %} active {% endif %}" alt="{{ img.id_galeria }}">
+                <a href="{{ img.imagenes.url }}" target="_blank">
+                    <img src="{{ img.imagenes.url }}" class="d-block w-100 img-fluid  container-img carrousel-img">
+                </a>                                            
+            </div>                                        
+        {% endfor %}
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev" style="height: 80%;">
+        <span class="carousel-control-prev-icon bg-secondary bg-opacity-50 rounded-3" ></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next" style="height: 80%;">
+        <span class="carousel-control-next-icon bg-secondary bg-opacity-50 rounded-3"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+<div class="text-center min-img">
+    {% for im in img %}
+        <img src="{{ im.imagenes.url }}" class="d-block {% if forloop.first %} img-active {% endif %} prev-img" width="5%" alt="{{ im.id_galeria }}">                                 
+    {% endfor %}
+</div> 

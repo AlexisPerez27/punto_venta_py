@@ -1,0 +1,118 @@
+{% extends 'layout/plantilla_administrador.html' %}
+
+{% block titulo %}Inventario{% endblock %}
+
+{% block titulo_page %}Inventario{% endblock %}
+
+{% block page %}
+
+{% load static %}
+
+
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-success alert-dismissible fade show" id="success-alert" role="alert">
+    <strong class="text-dark">{{ message }}</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+{% endif %}
+
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <h5>Consulta Inventario</h5>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 text-end">
+                    <a href="{% url 'registra_color' %}" class="btn btn-outline-primary"><i
+                            class="fa-solid fa-circle-plus"></i> Alta</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="card-body">
+            {% csrf_token %}
+            <div class="table-responsive">
+                <div class="row col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="precio" class="form-label fw-bold">Buscar Codigo/Producto</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"><i class="fa-solid fa-search"></i></span>
+                            <input type="text" class="form-control" placeholder="40RT2J5M/Playera" name="buscar" id="buscar" step=".01" min="0">
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-bordered border-primary">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>UUID</th>
+                            <th>Codigo</th>
+                            <th>Producto</th>
+                            <th>Descripcion</th>
+                            <th>Precio</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="productos_det">
+                        {% for p in inv_prod %}
+                            <tr>
+                                <td style="background-color: {{ p.cod_color }}">{{ p.id_producto }}</td>
+                                <td style="background-color: {{ p.cod_color }}">{{ p.uuid_producto }}</td>
+                                <td style="background-color: {{ p.cod_color }}">{{ p.codigo }}</td>
+                                <td style="background-color: {{ p.cod_color }}">{{ p.nombre }}</td>
+                                <td style="background-color: {{ p.cod_color }}">{{ p.descripcion }}</td>
+                                <td style="background-color: {{ p.cod_color }}">{{ p.precio }}</td>
+                                <td>
+                                    <button class="btn btn-outline-primary select_prod" title="Seleccionar">
+                                        <i class="fa-solid fa-paper-plane"></i> Seleccionar
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>           
+            <hr>
+            <div class="row">
+                <div class="col-lg-12">
+                    <h4>Detalle Producto</h4>
+                </div>
+                <div class="col-lg-12">
+                    <div class="table-responsibe">
+                        <table class="table table-bordered border-success">
+                            <thead>
+                                <tr>
+                                    <th>Codigo</th>
+                                    <th>Producto</th>
+                                    <th>Seccion</th>
+                                    <th>Tipo</th>
+                                    <th>Color</th>
+                                    <th>ver</th>
+                                </tr>
+                            </thead>
+                            <tbody id="datos_det">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="row col-1 d-grid">
+                <button class="btn btn-primary" id="guarda_inventario">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal_progre"></div>
+
+
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'js/inventario/inventario.js' %}"></script>
+{% endblock %}

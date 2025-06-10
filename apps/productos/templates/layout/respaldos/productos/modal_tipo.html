@@ -1,0 +1,141 @@
+<!-- Modal -->
+<div class="modal fade tipo" aria-labelledby="exampleModalLabel" id="ventana_modal_tipo">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Alta Tipo Productos</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'guarda_tipo_prod' %}" method="post" enctype="multipart/form-data" id="form_tipo_modal">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <div class="form-group">
+                                <label for="tipo_prod" class="form-label fw-bold">Tipo del Producto</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text"><i class="fa-solid fa-shirt"></i></span>
+                                    <input type="text" class="form-control" placeholder="Tipo de Producto" name="tipo_prod" id="tipo_prod" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <div class="form-group">
+                                <label for="talla" class="form-label fw-bold">Talla</label>
+                                <br>
+                                Selecciona tipo talla
+                                <br>
+                                <label for="vestimenta"> 
+                                    <input type="radio" name="tipo_talla" id="vestimenta" value="vestimenta" checked>Vestimenta
+                                </label>
+                                <label for="calzado"> 
+                                    <input type="radio" name="tipo_talla" id="calzado" value="calzado">Calzado
+                                </label>
+                                <div class="input-group mb-3" id="tamaño_vestimenta">
+                                    <!-- <span class="input-group-text"><i class="fa-solid fa-file-lines"></i></span> -->
+                                    <div class="form-check form-check-inline div_check">
+                                        <input class="form-check-input check_talla" type="checkbox" name="talla" id="2xsamll" value="2XSMALL">
+                                        <label class="form-check-label check_label" for="2xsamll">2XSMALL</label>
+                                    </div>
+                                    <div class="form-check form-check-inline div_check">
+                                        <input class="form-check-input check_talla" type="checkbox" name="talla" id="xsamll" value="XSMALL">
+                                        <label class="form-check-label check_label" for="xsamll">XSMALL</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input  check_talla" type="checkbox" name="talla" id="small" value="SMALL">
+                                        <label class="form-check-label check_label" for="small">SMALL</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input  check_talla" type="checkbox" name="talla" id="medium" value="MEDIUM">
+                                        <label class="form-check-label check_label" for="medium">MEDIUM</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input  check_talla" type="checkbox" name="talla" id="large" value="LARGE">
+                                        <label class="form-check-label check_label" for="large">LARGE</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input  check_talla" type="checkbox" name="talla" id="2xlarge" value="2XLARGE">
+                                        <label class="form-check-label check_label" for="2xlarge">2XLARGE</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input  check_talla" type="checkbox" name="talla" id="3xlarge" value="3XLARGE">
+                                        <label class="form-check-label check_label" for="3xlarge">3XLARGE</label>
+                                    </div>
+                                </div>
+                                <div class="input-group mb-3" id="tamaño_calzado" hidden>
+                                    <!-- <span class="input-group-text"><i class="fa-solid fa-file-lines"></i></span> -->
+                                    <div class="form-check form-check-inline div_check">
+                                        <input class="form-check-input check_talla" type="checkbox" name="talla" id="20" value="20">
+                                        <label class="form-check-label check_label" for="20">20</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input  check_talla" type="checkbox" name="talla" id="21" value="21">
+                                        <label class="form-check-label check_label" for="21">21</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input  check_talla" type="checkbox" name="talla" id="22" value="22">
+                                        <label class="form-check-label check_label" for="22">22</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input  check_talla" type="checkbox" name="talla" id="23" value="23">
+                                        <label class="form-check-label check_label" for="23">23</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input  check_talla" type="checkbox" name="talla" id="24" value="24">
+                                        <label class="form-check-label check_label" for="24">24</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input  check_talla" type="checkbox" name="talla" id="25" value="25">
+                                        <label class="form-check-label check_label" for="25">25</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input  check_talla" type="checkbox" name="talla" id="26" value="26">
+                                        <label class="form-check-label check_label" for="26">26</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input  check_talla" type="checkbox" name="talla" id="27" value="27">
+                                        <label class="form-check-label check_label" for="27">27</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input  check_talla" type="checkbox" name="talla" id="28" value="28">
+                                        <label class="form-check-label check_label" for="28">28</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input  check_talla" type="checkbox" name="talla" id="29" value="29">
+                                        <label class="form-check-label check_label" for="29">29</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input  check_talla" type="checkbox" name="talla" id="30" value="30">
+                                        <label class="form-check-label check_label" for="30">30</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <div class="form-group">
+                                <label for="color" class="form-label fw-bold">Color</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text"><i class="fa-solid fa-money-bill-1-wave"></i></span>
+                                    <input type="text" class="form-control" placeholder="Color" name="color" id="color" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <div class="form-group">
+                                <label for="cod_color" class="form-label fw-bold">Codigo Color</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-list-check"></i></span>
+                                    <input type="text" name="cod_color" id="cod_color" placeholder="Codigo Color" value="#" class="form-control" maxlength="7" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form> 
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="fa-solid fa-circle-xmark"></i> Cerrar</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="guarda_tipo_modal"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,60 @@
+<!-- tipo 1 es para seccion -->
+{% if tipo == '1' %}
+    <span id="dato" hidden>{{ dato }}</span>   
+    <div class="col-12">
+        <div class="form-group">
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa-solid fa-transgender"></i></span>
+                <select name="seccion" id="seccion" class="form-select">
+                    <option value="0">Seleccionar</option>
+                    {% for s in consulta %}
+                        <option value="{{ s.id_seccion }}">{{ s.seccion }}</option>
+                    {% endfor %}
+                </select>
+                <a href="{% url 'registra_seccion' %}" class="btn btn-primary" id="add_seccion"><i class="fa-solid fa-square-plus"></i></a>
+            </div>
+            <span class="cancelar_mod_seccion link-danger fw-bold">Cancelar</span>
+            <span class="guardar_mod_seccion link-success fw-bold">Guardar</span>
+        </div>
+    </div>
+    
+{% elif tipo == '2' %}
+    <span id="dato" hidden>{{ dato }}</span>   
+    <div class="col-12">
+        <div class="form-group">
+            <label for="tipo" class="form-label fw-bold">Tipo Producto</label>
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa-solid fa-vest"></i></span>
+                <select name="tipo" id="tipo" class="form-select">
+                    <option value="0">Seleccionar</option>
+                    {% for t in consulta %}
+                        <option value="{{ t.id_tipo }}">{{ t.tipo }}</option>
+                    {% endfor %}
+                </select>
+                <a href="{% url 'registra_tipo' %}" class="btn btn-primary" id="add_producto"><i class="fa-solid fa-square-plus"></i></a>
+            </div>
+            <span class="cancelar_mod_tipo link-danger fw-bold">Cancelar</span>
+            <span class="guardar_mod_tipo link-success fw-bold">Guardar</span>
+        </div>
+    </div>
+
+{% elif tipo == '3' %}
+    <span id="dato" hidden>{{ dato }}</span> 
+    <div class="col-12">
+        <div class="form-group">
+            <label for="color" class="form-label fw-bold">Color Producto</label>
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa-solid fa-droplet"></i></span>
+                <select name="color" id="color" class="form-select">
+                    <option value="0">Seleccionar</option>
+                    {% for c in consulta %}
+                        <option value="{{ c.id_color }}">{{ c.color }}</option>
+                    {% endfor %}
+                </select>
+                <a href="{% url 'registra_color' %}" class="btn btn-primary" id="add_color"><i class="fa-solid fa-square-plus"></i></a>
+            </div>
+            <span class="cancelar_mod_color link-danger fw-bold">Cancelar</span>
+            <span class="guardar_mod_color link-success fw-bold">Guardar</span>
+        </div>
+    </div>
+{% endif %}

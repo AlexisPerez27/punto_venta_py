@@ -1,0 +1,125 @@
+{% extends 'layout/plantilla_pv.html' %}
+
+{% block titulo %}Punto de venta{% endblock %}
+
+{% block page %}
+
+{% load static %}
+
+
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-success alert-dismissible fade show" id="success-alert" role="alert">
+    <strong class="text-dark">{{ message }}</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+{% endif %}
+
+<section class="py-5 text-center container">
+    <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+            <h1 class="fw-light">Album </h1>
+            <p class="lead text-body-secondary">Something short and leading about the collection below—its
+                contents, the creator, etc. Make it short and sweet, but not too short so folks don’t simply
+                skip over it entirely.</p>
+            <p>
+                <a href="#" class="btn btn-primary my-2">Main call to action</a>
+                <a href="#" class="btn btn-secondary my-2">Secondary action</a>
+            </p>
+        </div>
+    </div>
+</section>
+
+<div class="album py-2 bg-body-tertiary border-black">
+    <div class="container">
+
+        <div class="container py-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                        <label class="form-check-label" for="inlineCheckbox1">1</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                        <label class="form-check-label" for="inlineCheckbox2">2</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+                        <label class="form-check-label" for="inlineCheckbox3">3 (disabled)</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                            value="option1">
+                        <label class="form-check-label" for="inlineRadio1">1</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                            value="option2">
+                        <label class="form-check-label" for="inlineRadio2">2</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3"
+                            value="option3">
+                        <label class="form-check-label" for="inlineRadio3">3 (disabled)</label>
+                    </div>
+                    <div class="form-check">
+                        <label for="customRange2" class="form-label">Example range</label>
+                        <input type="range" class="form-range" min="0" max="5" id="customRange2">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 py-4">
+            {% load l10n %}
+            {% for p in prod %}
+            <div class="col">
+                <div class="border1 card shadow">                        
+                    <a href="{% url 'producto_pv' p.uuid_producto %}" class="link1">
+                        <img src="/media/{{ p.imagenes }}" width="100%" height="280" class="border-bottom">                        
+                    </a>
+                    <div class="card-body">
+                        <p class="card-title">
+                        <h6 title="Nombre Producto: {{ p.nombre }}">{{ p.nombre }}</h6>
+                        <div class="row">
+                            <span class="col-6 text-small text-primary" title="Codigo Producto: {{ p.codigo }}">{{ p.codigo }}</span>
+                            <span class="col-6 text-small text-end fw-bold text-success"
+                                title="Precio $ {{ p.precio|floatformat:'2g' }}">
+                                $ {{ p.precio|floatformat:"2g" }}
+                            </span>
+                        </div>
+                        </p>
+                        <p class="card-text justify-content-start fst-italic" title="Descripcion Producto">
+                            {{ p.descripcion|slice:":90" }} ...
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-outline-primary ver_prod" title="Ver Producto" id="ver_prod" data-url="{% url 'producto_pv' p.uuid_producto %}">
+                                    <i class="fa-solid fa-eye"></i> Ver
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-success comprar_prod"
+                                    title="Comprar Producto" id="comprar_prod">
+                                    <i class="fa-solid fa-cart-shopping"></i> Comprar
+                                    <input type="text" name="input_compra" id="input_compra" value="{{ p.uuid_producto }}">
+                                </button>
+                            </div>
+                            <small class="text-body-secondary">&nbsp;Ranking</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'js/punto_venta/punto_venta.js' %}"></script>
+{% endblock %}

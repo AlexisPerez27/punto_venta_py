@@ -1,0 +1,17 @@
+{% for t in tallas %}
+    {% for it in inv_tallas %}
+        {% if it.id_inv_tallas == t.id_detalle %}
+            {% if it.count_tallas > 0 %}
+                <div class="tallas">
+                    {{ t.fk_talla.cod_talla }}
+                    <input type="text" value="{{ t.id_detalle }}" name="id_det_prod" id="id_det_prod" hidden>
+                </div>                                                
+            {% else %}
+                <div class="tallas-deactivate">
+                    {{ t.fk_talla.cod_talla }}
+                    <input type="text" value="{{ t.id_detalle }}" name="id_det_prod" id="id_det_prod" hidden>
+                </div>
+            {% endif %}                                            
+        {% endif %}                                        
+    {% endfor %}                                    
+{% endfor %}

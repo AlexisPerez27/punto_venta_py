@@ -1,0 +1,11 @@
+{% for im in images %}
+<div class="col-lg-4 col-md-6 col-sm-12">
+    <div class="form-group">
+        <div class="text-end">
+            <input type="text" name="id_img" id="id_img" value="{{ im.id_galeria }}" hidden>
+            <button type="button" class="btn btn-danger elim_img">Eliminar</button>
+        </div>
+        <img src="{{ im.imagenes.url }}" alt="" class="img-fluid">
+    </div>
+</div>
+{% endfor %}

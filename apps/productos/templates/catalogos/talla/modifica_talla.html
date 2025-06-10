@@ -1,0 +1,85 @@
+{% extends 'layout/plantilla_administrador.html' %}
+
+{% block titulo %}Modifica Talla Vestimenta{% endblock %}
+
+{% block titulo_page %}Modifica Talla Vestimenta{% endblock %}
+
+{% block page %}
+
+{% load static %}
+
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-success alert-dismissible fade show" id="success-alert" role="alert">
+            <strong class="text-dark">{{ message }}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <h5>Modifica Talla Vestimenta</h5>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 text-end">
+                    <a href="{% url 'talla' %}" class="btn btn-outline-primary"><i class="fa-solid fa-rotate-left"></i> Regresar</a>
+                </div>
+            </div>
+            
+        </div>
+        <div class="card-body">
+            <form action="{% url 'guarda_mod_talla' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row"> 
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="talla" class="form-label fw-bold">ID Talla Vestimenta</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fa-solid fa-transgender"></i></span>
+                                <input type="text" class="form-control" placeholder="Talla Vestimenta" name="id_talla" id="id_talla" value="{{ talla.id_tallas }}" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="talla" class="form-label fw-bold">UUID Talla Vestimenta</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fa-solid fa-transgender"></i></span>
+                                <input type="text" class="form-control" placeholder="Talla Vestimenta" name="uuid_talla" id="uuid_talla" value="{{ talla.uuid_tallas }}" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="talla" class="form-label fw-bold">Talla Vestimenta</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fa-solid fa-transgender"></i></span>
+                                <input type="text" class="form-control" placeholder="Talla Vestimenta" name="talla" id="talla" value="{{ talla.talla }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="cod_talla" class="form-label fw-bold">Nomenclatura Talla Vestimenta</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fa-solid fa-transgender"></i></span>
+                                <input type="text" class="form-control" placeholder="Nomenclatura Talla Vestimenta" name="cod_talla" id="cod_talla" value="{{ talla.cod_talla }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-outline-success"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+            </form> 
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block script %}
+{% endblock %}

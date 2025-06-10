@@ -1,0 +1,76 @@
+{% extends 'layout/plantilla_administrador.html' %}
+
+{% block titulo %}Modifica Tipo Vestimenta{% endblock %}
+
+{% block titulo_page %}Modifica Tipo Vestimenta{% endblock %}
+
+{% block page %}
+
+{% load static %}
+
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-success alert-dismissible fade show" id="success-alert" role="alert">
+            <strong class="text-dark">{{ message }}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <h5>Modifica Tipo Vestimenta</h5>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 text-end">
+                    <a href="{% url 'tipo' %}" class="btn btn-outline-primary"><i class="fa-solid fa-rotate-left"></i> Regresar</a>
+                </div>
+            </div>
+            
+        </div>
+        <div class="card-body">
+            <form action="{% url 'guarda_mod_tipo_vest' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row"> 
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="id_tipo_vest" class="form-label fw-bold">ID Tipo Vestimenta</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fa-solid fa-id-card"></i></span>
+                                <input type="text" class="form-control" placeholder="Tipo Vestimenta" name="id_tipo_vest" id="id_tipo_vest" value="{{ tipo.id_tipo }}" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="uuid_tipo_vest" class="form-label fw-bold">UUID Tipo Vestimenta</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fa-solid fa-id-badge"></i></span>
+                                <input type="text" class="form-control" placeholder="Tipo Vestimenta" name="uuid_tipo_vest" id="uuid_tipo_vest" value="{{ tipo.uuid_tipo }}" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="tipo_vestimenta" class="form-label fw-bold">Tipo Vestimenta</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fa-solid fa-shirt"></i></span>
+                                <input type="text" class="form-control" placeholder="Tipo Vestimenta" name="tipo_vestimenta" id="tipo_vestimenta" value="{{ tipo.tipo }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-outline-success"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+            </form> 
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block script %}
+{% endblock %}

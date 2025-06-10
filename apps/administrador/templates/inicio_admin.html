@@ -1,0 +1,108 @@
+{% extends 'layout/plantilla_admin.html' %}
+
+{% block titulo %} Inicio Sesion Administrador{% endblock %}
+
+{% block body %}
+
+{% load static %}
+
+<style>
+    .divider:after,
+    .divider:before {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: #eee;
+    }
+
+    .h-custom {
+        height: calc(100% - 73px);
+    }
+
+    @media (max-width: 450px) {
+        .h-custom {
+            height: 100%;
+        }
+    }
+
+    .bg-image-vertical {
+        position: relative;
+        overflow: hidden;
+        background-repeat: no-repeat;
+        background-position: right center;
+        background-size: auto 100%;
+    }
+
+    @media (min-width: 1025px) {
+        .h-custom-2 {
+            height: 100%;
+        }
+    }
+</style>
+
+
+<section class="vh-100">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col col-xl-10">
+                <div class="card" style="border-radius: 1rem;">
+                    <div class="row g-0">
+                        <div class="col-md-6 col-lg-5 d-none d-md-block">
+                            <img src="{% static '../media/fondos/admin3.jpg' %}" alt="login form" class="img-fluid"
+                                style="border-radius: 1rem 0 0 1rem;" />
+                        </div>
+                        <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                            <div class="card-body p-4 p-lg-5 text-black">
+
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <div class="alert alert-success alert-dismissible fade show" id="success-alert" role="alert">
+                                            <strong class="text-dark">{{ message }}</strong>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+
+                                {# mensaje #}
+                                <div class="center" id="msj" hidden>
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <strong class="text-dark" id="mjs_txt"></strong>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
+                                    </div>
+                                </div>
+
+                                <!-- <form action="" method="post"> -->
+                                    {% csrf_token %}
+                                    <div class="d-flex align-items-center mb-3 pb-1">
+                                        <i class="fa-solid fa-chart-pie fa-2xl me-3" style="color: #ff6219;"></i>
+                                        <span class="h1 fw-bold mb-0">PV</span>
+                                    </div>
+
+                                    <div id="datos_admin">
+                                        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">
+                                            Ingresa codigo de administrador
+                                        </h5>
+
+                                        <div data-mdb-input-init class="form-outline mb-4">
+                                            <label class="form-label fw-bold" for="codigo">Codigo</label>
+                                            <input type="text" id="codigo" class="form-control form-control-lg" maxlength="12" />
+                                        </div>
+
+                                        <div class="pt-1 mb-4">
+                                            <button data-mdb-button-init data-mdb-ripple-init
+                                                class="btn btn-success1 btn-lg btn-block" type="button" id="validar">Validar</button>
+                                        </div>
+                                    </div>
+                                <!-- </form> -->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
