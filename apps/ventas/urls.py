@@ -14,5 +14,6 @@ urlpatterns = [
     path("select_color/", views.select_color ,name="select_color"),
     path("select_tallas/", views.select_tallas ,name="select_tallas"),
     path("select_images/", views.select_images ,name="select_images"),
+    path("pruebabi/", views.pruebabi ,name="pruebabi"),
 ]
 

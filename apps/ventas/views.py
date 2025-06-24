@@ -2,6 +2,8 @@ from django.shortcuts import render,get_object_or_404 #importamos funciones de o
 from django.http import HttpResponse, JsonResponse #para mostrar mensajes o resultados en la pagina
 from ..productos import models as models_productos
 from django.db.models import Count
+from powerbiclient import Report
+from powerbiclient.authentication import DeviceCodeLoginAuthentication
 
 # Create your views here.
 def index(request):
@@ -110,3 +112,19 @@ def select_images(request):
     max_id_img = max_id_img.id_galeria    
     
     return render(request,"producto/paleta_images.html",{"img":img,"min_id_img":min_id_img,"max_id_img":max_id_img})
+
+
+
+
+def pruebabi(request):
+    """ device_auth = DeviceCodeLoginAuthentication()
+    print(device_auth)
+    
+    group_id = "70b3c17f-fdfb-4305-a52f-66fff7f6b3a6"
+    report_id = "459d70de-1866-4e33-b22e-9d03729c4646"
+    
+    report= Report(group_id=group_id,report_id=report_id,auth=device_auth)
+    
+    print(report) """
+    
+    return render(request,"producto/pruebabi.html") 

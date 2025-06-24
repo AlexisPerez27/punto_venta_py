@@ -1,0 +1,61 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<iframe title="prueba" width="1800" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiNTE4ZmE2YzgtODk2ZC00NDIyLWEwNzAtZmUzNzNkNzJmYmE1IiwidCI6IjA0YTAzNDYyLTU2YzktNDE0ZC1iYjU0LWM2YWM1N2ZhY2UyMiJ9" frameborder="0" allowFullScreen="true"></iframe>
+<iframe title="prueba ventas" width="600" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiMTM2YmJlNDgtOGQ1Yy00MTIyLTg3MTgtZmY5ZDExMGQzNDZiIiwidCI6IjA0YTAzNDYyLTU2YzktNDE0ZC1iYjU0LWM2YWM1N2ZhY2UyMiJ9" frameborder="0" allowFullScreen="true"></iframe>
+
+<br><br><br>
+<hr>
+
+<iframe title="Desperdicio Produccion" width="2160" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiODM2ZmE0YzctMjQzNC00ZDIyLWEwOWItODNhZWM3YTRmZjRiIiwidCI6IjA0YTAzNDYyLTU2YzktNDE0ZC1iYjU0LWM2YWM1N2ZhY2UyMiJ9" frameborder="0" allowFullScreen="true"></iframe>
+</body>
+</html>
+
+<iframe title="Desperdicio Produccion" width="600" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiODM2ZmE0YzctMjQzNC00ZDIyLWEwOWItODNhZWM3YTRmZjRiIiwidCI6IjA0YTAzNDYyLTU2YzktNDE0ZC1iYjU0LWM2YWM1N2ZhY2UyMiJ9" frameborder="0" allowFullScreen="true"></iframe> -->
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+	td {
+		background-color: #E8E8E8;
+		padding: 5px;
+	}
+	table { 
+    	border-spacing: 5px;
+    	border-collapse: separate;
+	}
+</style>
+<script
+	src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js'></script>
+<script>
+$(function(){
+    //SF43718
+	$.ajax({
+		url : '	https://www.banxico.org.mx/SieAPIRest/service/v1/series/:SF43718/datos/oportuno?token=165cc2ea052ec3c5a58b6825bf30efe8a46111bb59e9962fa94e58d01036863b',
+		jsonp : 'callback',
+		dataType : 'jsonp', //Se utiliza JSONP para realizar la consulta cross-site
+		success : function(response) {  //Handler de la respuesta
+			var series=response.bmx.series;
+			
+			//Se carga una tabla con los registros obtenidos
+			for (var i in series) {
+				  var serie=series[i];
+				  var reg='<tr><td>'+serie.titulo+'</td><td>'+serie.datos[0].fecha+'</td><td>'+serie.datos[0].dato+'</td></tr>'
+				  $('#result').append(reg);
+			}
+		}
+	});
+});
+</script>
+</head>
+<body>
+<table id='result'>
+</table>
+</body>
+</html>
